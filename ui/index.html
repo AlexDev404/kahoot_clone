@@ -11,7 +11,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/css/tailwind.css" />
-    
+    <script src="./assets/js/util.js"></script>
+    <script>
+      const client_id = uuid();
+    </script>
+    <script src="./assets/js/client.js" defer></script>
     <title>We'll just never know...</title>
     <style>
       body {
@@ -48,9 +52,16 @@
                 style="flex-basis: 100%"
                 class="border-2 border-gray-200 rounded-sm px-5 py-3 w-full text-center font-semibold mb-2"
               />
+              <input
+                id="server"
+                type="text"
+                placeholder="Game Server"
+                style="flex-basis: 100%"
+                class="border-2 border-gray-200 rounded-sm px-5 py-3 w-full text-center font-semibold mb-2"
+              />
               <button
                 type="submit"
-                class="bg-gray-900 px-5 py-3 text-white w-full font-semibold rounded-sm"
+                class="bg-gray-900 hover:bg-gray-800 px-5 py-3 text-white w-full font-semibold rounded-sm"
               >
                 Enter
               </button>
@@ -64,4 +75,9 @@
       </div>
     </div>
   </body>
+  <script>
+    pin.addEventListener("submit", (e) => {
+      e.preventDefault();
+    });
+  </script>
 </html>

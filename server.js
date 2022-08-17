@@ -20,7 +20,7 @@ const server = app.listen(port, () => {
 app.use("/ui", express.static(path.join(__dirname, "ui/")));
 
 app.get("/reserve/session/:room/:UID", (req, res) => {
-  let room = req.params.sessionID;
+  let room = req.params.room;
   let UID = req.params.UID;
   if(roomList.includes(room)){
     res.sendStatus(200);
