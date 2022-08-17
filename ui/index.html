@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/tailwind.css" />
+    
+    <title>We'll just never know...</title>
+    <style>
+      body {
+        background: rgb(70, 23, 143);
+      }
+      *:focus {
+        outline: none;
+      }
+      #pin_content::placeholder {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body class="flex flex-wrap justify-center items-center w-screen h-screen">
+    <div class="pin_container flex flex-wrap w-fit text-center justify-center">
+      <div class="logo flex justify-center items-center basis-full my-10">
+        <img
+          src="https://assets-cdn.kahoot.it/controller/v2/assets/icn_kahoot_logo.58b66a21.svg"
+          class="w-44"
+        />
+      </div>
+      <div
+        class="wrapper flex flex-wrap justify-center items-center basis-full"
+      >
+        <div
+          class="pinentry bg-white border-1 border-black px-4 py-4 rounded-sm w-fit text-center"
+        >
+          <form id="pin" action="" class="flex flex-wrap">
+            <fieldset class="flex flex-wrap">
+              <input
+                id="pin_content"
+                type="text"
+                placeholder="Game PIN"
+                style="flex-basis: 100%"
+                class="border-2 border-gray-200 rounded-sm px-5 py-3 w-full text-center font-semibold mb-2"
+              />
+              <button
+                type="submit"
+                class="bg-gray-900 px-5 py-3 text-white w-full font-semibold rounded-sm"
+              >
+                Enter
+              </button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="comment font-medium text-md text-center mt-10 text-white">
+        Create your own quiz for FREE at <b>localhost:5500</b>.<br />
+        Terms and conditions apply.
+      </div>
+    </div>
+  </body>
+</html>

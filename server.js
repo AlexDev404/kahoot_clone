@@ -3,6 +3,8 @@ const app = express();
 const WebSocketServer = require("ws").Server;
 const path = require("path");
 const port = process.env.PORT || 8010;
+let playerList = [];
+let roomList = ["123456"];
 
 // GET private IP (for development purposes)
 require("dns").lookup(require("os").hostname(), function (err, add, fam) {
@@ -15,7 +17,18 @@ const server = app.listen(port, () => {
   }
 });
 
-app.use("/shell", express.static(path.join(__dirname, "shell/")));
+app.use("/ui", express.static(path.join(__dirname, "ui/")));
+
+app.get("/reserve/session/:room/:UID", (req, res) => {
+  let room = req.params.sessionID;
+  let UID = req.params.UID;
+  if(roomList.includes(room)){
+    res.sendStatus(200);
+  }
+  else{
+    res.sendStatus(400)
+  }
+});
 
 // Kahoot server
 
@@ -35,7 +48,7 @@ server.on("upgrade", (request, socket, head) => {
 ws.on("connection", (websocketConnection) => {
   console.log("[CONNECTION] Client is Attempting To Connect!");
 
-//   websocketConnection.send();
+  //   websocketConnection.send();
 
   websocketConnection.on("message", (message) => {
     let data;
@@ -46,24 +59,20 @@ ws.on("connection", (websocketConnection) => {
       console.warn("[SUBSYSTEM] Format Unsupported");
       return;
     }
-
   });
 });
 
-
-
 ws.on("close", () => {
   console.log("[CONNECTION] Client has disconnected.");
-  systemBroadcast("Client has disconnected from the chat.");
 });
 
 ws.broadcast = (data) => {
   ws.clients.forEach((client) => client.send(data));
 };
 
-
 // Send a heartbeat to the client every 20s
 // We do this to prevent the socket from commiting suicide.
-setInterval(() => {
-  ws.broadcast(JSON.stringify(chatlog));
-}, 20000);
+
+// setInterval(() => {
+//   ws.broadcast(JSON.stringify(chatlog));
+// }, 20000);
