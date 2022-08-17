@@ -1,3 +1,4 @@
+const cors = require("cors");
 const express = require("express");
 const app = express();
 const WebSocketServer = require("ws").Server;
@@ -5,6 +6,8 @@ const path = require("path");
 const port = process.env.PORT || 8010;
 let playerList = [];
 let roomList = ["123456"];
+
+app.use(cors());
 
 // GET private IP (for development purposes)
 require("dns").lookup(require("os").hostname(), function (err, add, fam) {
@@ -22,11 +25,10 @@ app.use("/ui", express.static(path.join(__dirname, "ui/")));
 app.get("/reserve/session/:room/:UID", (req, res) => {
   let room = req.params.room;
   let UID = req.params.UID;
-  if(roomList.includes(room)){
+  if (roomList.includes(room)) {
     res.sendStatus(200);
-  }
-  else{
-    res.sendStatus(400)
+  } else {
+    res.sendStatus(400);
   }
 });
 
