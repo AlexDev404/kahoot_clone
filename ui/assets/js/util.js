@@ -54,7 +54,7 @@ function init() {
  */
 
 function boarding(client, room) {
-  console.log("BOARD");
+  console.log("[BOARD] Client has boarded the server");
   if (wsOpen) {
     // Sign in
     if(username.value != null) {

@@ -36,21 +36,24 @@
   </head>
   <body class="flex flex-wrap justify-center items-center w-screen h-screen">
     <div class="pin_container flex flex-wrap w-fit text-center justify-center">
-      <div id="question_title"
+      <div id="q_index" class="text-white font-light"></div>
+      <div
+        id="question_title"
         class="logo flex justify-center items-center basis-full my-10 text-4xl text-white font-semibold"
       >
-        QUESTION_TITLE
       </div>
-      <div id="question_pane"
+      <div
+        id="question_pane"
         class="wrapper flex flex-wrap justify-center items-center basis-full"
       ></div>
     </div>
   </body>
-  <script type="text/html">
+  <script id="tf_template" type="text/html">
     <div
-      id="tf_template" class="pinentry bg-red-100 border-1 border-black px-9 py-3 mx-4 my-4 rounded-sm w-fit text-center"
+      id="tf_a"
+      onclick="postAnswer()"
+      class="pinentry bg-red-100 hover:bg-red-200 border-1 border-black px-9 py-3 mx-4 my-4 rounded-sm w-fit text-center cursor-pointer font-semibold"
     >
-      ANSWER
     </div>
   </script>
 </html>

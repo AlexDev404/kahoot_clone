@@ -60,7 +60,7 @@ let roomData = {
     {
       // Questions and their timeout
       Q: [
-        ["Dogs cannot smell", 10],
+        ["This is a question", 10],
         ["Dogs are fat", 5],
         ["Doge is the best", 30],
       ],
@@ -163,6 +163,8 @@ ws.on("connection", (websocketConnection) => {
                 roomData[parseInt(data.identity[2])][4]["_metadata"][
                   roomData[parseInt(data.identity[2])][2]
                 ],
+                roomData[parseInt(data.identity[2])][2],
+                roomData[parseInt(data.identity[2])][4]["Q"].length,
               ])
             );
             return;

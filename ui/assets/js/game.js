@@ -20,12 +20,24 @@ function listen() {
   ws.addEventListener("message", (event) => {
     let data = JSON.parse(event.data);
     console.log(data);
+
+    q_index.innerHTML = `Question ${parseInt(data[2]) + 1} out of ${
+      parseInt(data[3]) + 1
+    }`;
+    // Set question title
+    question_title.innerText = data[0][0];
+    // Set possible answers
+    data[1].forEach((answer, index) => {
+      question_pane.insertAdjacentHTML("beforeend", tf_template.innerHTML);
+      tf_a.innerHTML = answer;
+      sID("tf_a", "a__" + index);
+    });
   });
   ws.addEventListener("close", () => {
     // if (!blocker.hasAttribute("disabled")) {
     //   blocker.toggleAttribute("disabled");
     // }
-    console.warn("You have been kicked by the server.")
+    console.warn("You have been kicked by the server.");
     localStorage.clear();
   });
 }
