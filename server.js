@@ -33,7 +33,7 @@ let roomData = {
   // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[[QUESTION, TIMEOUT], [..., ...]], _metadata: [[POSSIBLECHOICES, ...]], A:[ANSWERS, ...]}]
   999999: [
     "init",
-    10,
+    30,
     0,
     "Cats",
     {
