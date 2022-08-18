@@ -53,9 +53,3 @@ function listen() {
     // window.location.href = "./errors/kick.html"
   });
 }
-
-function sID(od, nd) {
-  od = document.getElementById(od);
-  od.id = nd;
-  return document.getElementById(nd);
-}

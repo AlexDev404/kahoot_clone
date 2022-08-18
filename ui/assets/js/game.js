@@ -42,9 +42,3 @@ function listen() {
     localStorage.clear();
   });
 }
-
-function sID(od, nd) {
-  od = document.getElementById(od);
-  od.id = nd;
-  return document.getElementById(nd);
-}

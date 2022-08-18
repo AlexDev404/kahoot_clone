@@ -21,6 +21,20 @@ function uuid() {
   );
 }
 
+/**
+ * @version SID-V2
+ * @brief Switch HTML Element ID and retrieve it for usage at the same time
+ * @param {String} od Old ID (Current ID)
+ * @param {String} nd New ID (Intended ID)
+ * @returns HTML Element
+ *
+ */
+function sID(od, nd) {
+  od = document.getElementById(od);
+  od.id = nd;
+  return document.getElementById(nd);
+}
+
 // Start boarding the server after document has loaded
 
 function init() {
@@ -57,10 +71,8 @@ function boarding(client, room) {
   console.log("[BOARD] Client has boarded the server");
   if (wsOpen) {
     // Sign in
-    if(username.value != null) {
-     
-        ws.send(JSON.stringify({ identity: [client, username.value, room] }));
- 
+    if (username.value != null) {
+      ws.send(JSON.stringify({ identity: [client, username.value, room] }));
     } else {
       // We are in a game
       ws.send(JSON.stringify({ identity: [client, username, room] }));
