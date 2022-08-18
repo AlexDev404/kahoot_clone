@@ -14,6 +14,7 @@ let playerList = {
     ["af5dc33af122", "Joe537"],
   ],
   111111: [["df5dc33af121", "Joe538"]],
+  999999: [],
 };
 class kPlayer {
   constructor(clientID, username, room) {
@@ -25,11 +26,22 @@ let playerData = { df5dc33af121: { points: 999999 } };
 
 // Room Data
 
-let roomList = ["123456", "111111"];
+let roomList = ["123456", "111111", "999999"];
 
 // Room Data
 let roomData = {
-  // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[QUESTIONS, ...], A:[ANSWERS, ...]}]
+  // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[QUESTIONS, ...], _metadata: [[POSSIBLECHOICES, ...]], A:[ANSWERS, ...]}]
+  999999: [
+    "init",
+    10,
+    0,
+    "Cats",
+    {
+      Q: ["Some kind of cat question"],
+      _metadata: [["True", "False"]],
+      A: [0],
+    },
+  ],
   123456: [
     "inProgress",
     0,
@@ -229,7 +241,7 @@ ws.on("connection", (websocketConnection) => {
           roomData[parseInt(player.room)][1] =
             parseInt(roomData[parseInt(player.room)][1]) + 1;
 
-            // Broadcast this to all users
+          // Broadcast this to all users
           ws.broadcast(JSON.stringify([roomData[parseInt(player.room)][1]]));
         }
       }
