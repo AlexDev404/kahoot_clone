@@ -32,7 +32,7 @@ function listen() {
       switch (data[0]) {
         case "IN_PROGRESS":
           blocker_title.innerText = "CONNECTION FAILED WITH ERROR";
-          blocker_sub.innerText = "GAME HAS ALREADY STARTED";
+          blocker_sub.innerText = "THE GAME HAS ALREADY STARTED";
           localStorage.clear();
           setTimeout(() => {
             window.location.href = "index.html";
@@ -41,6 +41,14 @@ function listen() {
         case "FULL":
           blocker_title.innerText = "CONNECTION FAILED WITH ERROR";
           blocker_sub.innerText = "ROOM IS FULL";
+          localStorage.clear();
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 5000);
+          break;
+        case "NOT_FOUND":
+          blocker_title.innerText = "CONNECTION FAILED WITH ERROR";
+          blocker_sub.innerText = "THIS GAME HAS ENDED";
           localStorage.clear();
           setTimeout(() => {
             window.location.href = "index.html";

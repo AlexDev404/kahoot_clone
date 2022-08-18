@@ -89,46 +89,56 @@ ws.on("connection", (websocketConnection) => {
       // Check if this player already exists in the database
       // If so, we send him the current question
       // IDENTITY: [CID, USERNAME, ROOM]
-      playerList[parseInt(data.identity[2])].forEach((player, index) => {
-        // console.log(index);
-        // console.log(player[0]);
+      try {
+        playerList[parseInt(data.identity[2])].forEach((player, index) => {
+          // console.log(index);
+          // console.log(player[0]);
 
-        try {
-          if (player[0].includes(data.identity[0])) {
-            console.log(
-              "[FLOW] User " +
-                data.identity[1] +
-                ` (${data.identity[0]})` +
-                " has rejoined the game (ROOM ID: " +
-                data.identity[2] +
-                ")"
-            );
-            userExists = true;
-            // Send current question along with possible choices through WebSocket to the client
-            websocketConnection.send(
-              JSON.stringify([
-                roomData[parseInt(data.identity[2])][4]["Q"][
-                  roomData[parseInt(data.identity[2])][2]
-                ],
-                roomData[parseInt(data.identity[2])][4]["_metadata"][
-                  roomData[parseInt(data.identity[2])][2]
-                ],
-                roomData[parseInt(data.identity[2])][2],
-                roomData[parseInt(data.identity[2])][4]["Q"].length - 1,
-              ])
-            );
-            return;
+          try {
+            if (player[0].includes(data.identity[0])) {
+              console.log(
+                "[FLOW] User " +
+                  data.identity[1] +
+                  ` (${data.identity[0]})` +
+                  " has rejoined the game (ROOM ID: " +
+                  data.identity[2] +
+                  ")"
+              );
+              userExists = true;
+              // Send current question along with possible choices through WebSocket to the client
+              websocketConnection.send(
+                JSON.stringify([
+                  roomData[parseInt(data.identity[2])][4]["Q"][
+                    roomData[parseInt(data.identity[2])][2]
+                  ],
+                  roomData[parseInt(data.identity[2])][4]["_metadata"][
+                    roomData[parseInt(data.identity[2])][2]
+                  ],
+                  roomData[parseInt(data.identity[2])][2],
+                  roomData[parseInt(data.identity[2])][4]["Q"].length - 1,
+                ])
+              );
+              return;
+            }
+          } catch (error) {
+            console.log("[CONNECTION] MALFORMED REQUEST!!!");
+            console.log(data);
+            console.log("PL==========");
+            console.log(playerList);
+            console.log("PD==========");
+            console.log(playerData);
+            websocketConnection.close();
           }
-        } catch (error) {
-          console.log("[CONNECTION] MALFORMED REQUEST!!!");
-          console.log(data);
-          console.log("PL==========");
-          console.log(playerList);
-          console.log("PD==========");
-          console.log(playerData);
-          websocketConnection.close();
-        }
-      });
+        });
+      } catch (error) {
+        console.log("[CONNECTION] MALFORMED REQUEST!!!");
+        console.log(data);
+        console.log("PL==========");
+        console.log(playerList);
+        console.log("PD==========");
+        console.log(playerData);
+        websocketConnection.close();
+      }
 
       // If the user doesn't exist append him to the roster
       if (!userExists) {
@@ -138,15 +148,21 @@ ws.on("connection", (websocketConnection) => {
         // If the room is inProgress don't let them in
         // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[QUESTIONS, ...], A:[ANSWERS, ...]}]
 
+        if (roomData[parseInt(data.identity[2])][0] == "end") {
+          websocketConnection.send(JSON.stringify(["NOT_FOUND"]));
+          // websocketConnection.close();
+          return;
+        }
+
         if (roomData[parseInt(data.identity[2])][0] == "inProgress") {
           websocketConnection.send(JSON.stringify(["IN_PROGRESS"]));
-          websocketConnection.close();
+          // websocketConnection.close();
           return;
         }
         // If the room is full we don't let them in
         if (playerList[parseInt(data.identity[2])].length > roomLimit) {
           websocketConnection.send(JSON.stringify(["FULL"]));
-          websocketConnection.close();
+          // websocketConnection.close();
           return;
         }
         // Otherwise we add them to the player list

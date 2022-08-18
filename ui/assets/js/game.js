@@ -21,6 +21,16 @@ function listen() {
     let data = JSON.parse(event.data);
     console.log(data);
 
+    if (
+      data[0] == "NOT_FOUND" ||
+      data[0] == "FULL" ||
+      data[0] == "IN_PROGRESS"
+    ) {
+      console.log("LOL what are YOU doing here???! LMAO");
+      localStorage.clear();
+      window.location.href = "index.html";
+    }
+
     q_index.innerHTML = `Question ${parseInt(data[2]) + 1} out of ${
       parseInt(data[3]) + 1
     }`;
@@ -40,6 +50,6 @@ function listen() {
     // }
     console.warn("You have been kicked by the server.");
     localStorage.clear();
-    window.location.href = "./errors/kick.html"
+    window.location.href = "./errors/kick.html";
   });
 }

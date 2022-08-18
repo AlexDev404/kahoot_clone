@@ -34,28 +34,39 @@
       }
     </style>
   </head>
-  <body class="flex flex-wrap justify-center items-center w-screen h-screen">
-    <div class="pin_container flex flex-wrap w-fit text-center justify-center">
-      <div id="q_index" class="text-white font-light"></div>
+  <body>
+    <header
+      class="flex flex-wrap space-around bg-red-900 text-white w-full py-4"
+    >
       <div
-        id="question_title"
-        class="logo flex justify-center items-center basis-full my-10 text-4xl text-white font-semibold"
+        class="exit-room px-4 py-2 mx-2 bg-red-500 hover:bg-red-600 rounded-sm select-none cursor-pointer"
+        onclick="localStorage.clear(); window.location.href = 'index.html'"
       >
+        Exit Room
       </div>
+    </header>
+    <main class="flex flex-wrap justify-center items-center w-screen h-screen">
       <div
-        id="question_pane"
-        class="wrapper flex flex-wrap justify-center items-center basis-full"
-      ></div>
-      <div id="user" class="mt-4 text-white font-light"></div>
-    </div>
-    
+        class="pin_container flex flex-wrap w-fit text-center justify-center"
+      >
+        <div id="q_index" class="text-white font-light"></div>
+        <div
+          id="question_title"
+          class="logo flex justify-center items-center basis-full my-10 text-4xl text-white font-semibold"
+        ></div>
+        <div
+          id="question_pane"
+          class="wrapper flex flex-wrap justify-center items-center basis-full"
+        ></div>
+        <div id="user" class="mt-4 text-white font-light"></div>
+      </div>
+    </main>
   </body>
   <script id="tf_template" type="text/html">
     <div
       id="tf_a"
       onclick="postAnswer()"
-      class="pinentry bg-red-100 hover:bg-red-200 border-1 border-black px-9 py-3 mx-4 my-4 rounded-sm w-fit text-center cursor-pointer font-semibold"
-    >
-    </div>
+      class="pinentry bg-red-100 hover:bg-red-200 border-1 border-black px-9 py-3 mx-4 my-4 rounded-sm w-fit text-center cursor-pointer font-semibold select-none"
+    ></div>
   </script>
 </html>
