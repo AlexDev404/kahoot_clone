@@ -38,11 +38,15 @@ function listen() {
     // Set question title
     question_title.innerText = data[0][0];
     // Set possible answers
-    data[1].forEach((answer, index) => {
-      question_pane.insertAdjacentHTML("beforeend", tf_template.innerHTML);
-      tf_a.innerHTML = answer;
-      sID("tf_a", index);
-    });
+    try {
+      data[1].forEach((answer, index) => {
+        question_pane.insertAdjacentHTML("beforeend", tf_template.innerHTML);
+        tf_a.innerHTML = answer;
+        sID("tf_a", index);
+      });
+    } catch (error) {
+      window.location.reload();
+    }
   });
   ws.addEventListener("close", () => {
     // if (!blocker.hasAttribute("disabled")) {
@@ -58,8 +62,8 @@ function listen() {
  * @brief Posts the answer to the server
  * @param {String} answer The Answer ID
  */
-function postAnswer(answer){
-  if(wsOpen){
-    ws.send(JSON.stringify([client, room, answer]))
+function postAnswer(answer) {
+  if (wsOpen) {
+    ws.send(JSON.stringify([client, room, answer]));
   }
 }

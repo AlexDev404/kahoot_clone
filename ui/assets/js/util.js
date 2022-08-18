@@ -40,8 +40,11 @@ function sID(od, nd) {
 function init() {
   if ("WebSocket" in window) {
     // Let us open a web socket
-    ws = new WebSocket(address);
-
+    try {
+      ws = new WebSocket(address);
+    } catch (error) {
+      window.location.href = "index.html";
+    }
     ws.onopen = function () {
       // Web Socket is connected, send data using send()
       wsOpen = true;
@@ -71,11 +74,16 @@ function boarding(client, room) {
   console.log("[BOARD] Client has boarded the server");
   if (wsOpen) {
     // Sign in
-    if (username.value != null) {
-      ws.send(JSON.stringify({ identity: [client, username.value, room] }));
-    } else {
-      // We are in a game
-      ws.send(JSON.stringify({ identity: [client, username, room] }));
+    try {
+      if (username.value != null) {
+        ws.send(JSON.stringify({ identity: [client, username.value, room] }));
+      } else {
+        // We are in a game
+        ws.send(JSON.stringify({ identity: [client, username, room] }));
+      }
+    } catch (error) {
+      localStorage.setItem("username", "Anonymous");
+      window.location.reload();
     }
   }
   listen();

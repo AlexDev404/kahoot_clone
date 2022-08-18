@@ -149,17 +149,22 @@ ws.on("connection", (websocketConnection) => {
         // If the room is inProgress don't let them in
         // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[QUESTIONS, ...], A:[ANSWERS, ...]}]
 
-        if (roomData[parseInt(data.identity[2])][0] == "end") {
-          websocketConnection.send(JSON.stringify(["NOT_FOUND"]));
-          // websocketConnection.close();
-          return;
+        try {
+          if (roomData[parseInt(data.identity[2])][0] == "end") {
+            websocketConnection.send(JSON.stringify(["NOT_FOUND"]));
+            // websocketConnection.close();
+            return;
+          }
+
+          if (roomData[parseInt(data.identity[2])][0] == "inProgress") {
+            websocketConnection.send(JSON.stringify(["IN_PROGRESS"]));
+            // websocketConnection.close();
+            return;
+          }
+        } catch (error) {
+          websocketConnection.close();
         }
 
-        if (roomData[parseInt(data.identity[2])][0] == "inProgress") {
-          websocketConnection.send(JSON.stringify(["IN_PROGRESS"]));
-          // websocketConnection.close();
-          return;
-        }
         // If the room is full we don't let them in
         if (playerList[parseInt(data.identity[2])].length > roomLimit) {
           websocketConnection.send(JSON.stringify(["FULL"]));
@@ -224,9 +229,9 @@ ws.on("connection", (websocketConnection) => {
        * 5. If the answer is correct then we send true if the answer is correct or
        * False if it's incorrect along with an initialization message with the
        * next question constructed as so:
-       * 
+       *
        * Answer Schema:
-       * 
+       *
        * [True, [["This is the next question", 5], ["Answer One", "Answer 2"], Question_Now, Total_Questions]]
        */
     }
