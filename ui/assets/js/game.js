@@ -41,7 +41,7 @@ function listen() {
     data[1].forEach((answer, index) => {
       question_pane.insertAdjacentHTML("beforeend", tf_template.innerHTML);
       tf_a.innerHTML = answer;
-      sID("tf_a", "a__" + index);
+      sID("tf_a", index);
     });
   });
   ws.addEventListener("close", () => {
@@ -52,4 +52,14 @@ function listen() {
     localStorage.clear();
     window.location.href = "./errors/kick.html";
   });
+}
+
+/**
+ * @brief Posts the answer to the server
+ * @param {String} answer The Answer ID
+ */
+function postAnswer(answer){
+  if(wsOpen){
+    ws.send(JSON.stringify([client, room, answer]))
+  }
 }

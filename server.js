@@ -1,3 +1,4 @@
+const e = require("cors");
 const cors = require("cors");
 const express = require("express");
 const app = express();
@@ -204,6 +205,30 @@ ws.on("connection", (websocketConnection) => {
           ws.broadcast(JSON.stringify([roomData[parseInt(player.room)][1]]));
         }
       }
+    }
+    // WE ASSUME THIS IS AN ANSWER MESSAGE!
+    else {
+      /*
+       * We use try and catch for this. If it's an invalid message
+       * Then we just kick the user out of the room because we don't care
+       * If the user is the president of the united states or not, we just
+       * Don't want the server to crash since we have more clients that
+       * Need the service. To start off,
+       * 1. We look at the room ID
+       * 2. And then we parse the message and verify the user is in the player list
+       * by checking the client ID against the database
+       * 3. We then delay the sending of the answer if there is more than one person
+       * in the room. We wait for everybody to post their answers or wait for the
+       * question's countdown to expire
+       * 4. Afterward, we verify if the answer is correct
+       * 5. If the answer is correct then we send true if the answer is correct or
+       * False if it's incorrect along with an initialization message with the
+       * next question constructed as so:
+       * 
+       * Answer Schema:
+       * 
+       * [True, [["This is the next question", 5], ["Answer One", "Answer 2"], Question_Now, Total_Questions]]
+       */
     }
   });
 });
