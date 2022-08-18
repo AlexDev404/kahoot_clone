@@ -15,8 +15,8 @@
     <script>
       const client_id = uuid();
     </script>
-    <script src="./assets/js/client.js" defer></script>
-    <title>Enter Game PIN - Kahoot</title>
+    <script src="./assets/js/room.js" defer></script>
+    <title>Quiz - Kahoot</title>
     <style>
       body {
         background: rgb(70, 23, 143);
@@ -43,21 +43,20 @@
       class="blocker flex flex-wrap justify-center items-center w-fit text-center select-none hidden"
     >
       <div class="announcement flex flex-wrap justify-center items-center">
-        <div class="title text-4xl text-white basis-full font-black">
-          CONNECTION IN PROGRESS...
-        </div>
         <div
-          id="blocker_sub"
-          class="subtitle font-light text-2xl text-white"
-        ></div>
+          id="blocker_title"
+          class="title text-4xl text-white basis-full font-black"
+        >
+          BOARDING THE SERVER...
+        </div>
+        <div id="blocker_sub" class="subtitle font-light text-2xl text-white">
+          This shouldn't take long
+        </div>
       </div>
     </div>
     <div class="pin_container flex flex-wrap w-fit text-center justify-center">
       <div class="logo flex justify-center items-center basis-full my-10">
-        <img
-          src="./assets/svg/kahoot.svg"
-          class="w-44"
-        />
+        <img src="./assets/svg/kahoot.svg" class="w-44" />
       </div>
       <div
         class="wrapper flex flex-wrap justify-center items-center basis-full"
@@ -65,27 +64,21 @@
         <div
           class="pinentry bg-white border-1 border-black px-4 py-4 rounded-sm w-fit text-center"
         >
-          <form id="pin" action="" class="flex flex-wrap">
+          <form id="pin" onsubmit="return init()" class="flex flex-wrap">
             <fieldset class="flex flex-wrap">
               <input
-                id="pin_content"
+                id="username"
                 type="text"
-                placeholder="Game PIN"
+                placeholder="Username"
                 style="flex-basis: 100%"
-                class="border-2 border-gray-200 rounded-sm px-5 py-3 w-full text-center font-semibold mb-2"
-              />
-              <input
-                id="server"
-                type="text"
-                placeholder="Game Server"
-                style="flex-basis: 100%"
+                onkeyup="localStorage.setItem('username', username.value);"
                 class="border-2 border-gray-200 rounded-sm px-5 py-3 w-full text-center font-semibold mb-2"
               />
               <button
                 type="submit"
                 class="bg-gray-900 hover:bg-gray-800 px-5 py-3 text-white w-full font-semibold rounded-sm"
               >
-                Enter
+                Enter Game
               </button>
             </fieldset>
           </form>

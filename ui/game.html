@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/tailwind.css" />
+    <script src="./assets/js/util.js"></script>
+    <script>
+      const client_id = uuid();
+    </script>
+    <script src="./assets/js/game.js" defer></script>
+    <title>Quiz - Kahoot</title>
+    <style>
+      body {
+        background: rgb(70, 23, 143);
+      }
+      *:focus {
+        outline: none;
+      }
+      #pin_content::placeholder {
+        font-weight: 600;
+      }
+
+      .blocker {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body class="flex flex-wrap justify-center items-center w-screen h-screen">
+    <div class="pin_container flex flex-wrap w-fit text-center justify-center">
+      <div id="question_title"
+        class="logo flex justify-center items-center basis-full my-10 text-4xl text-white font-semibold"
+      >
+        QUESTION_TITLE
+      </div>
+      <div id="question_pane"
+        class="wrapper flex flex-wrap justify-center items-center basis-full"
+      ></div>
+    </div>
+  </body>
+  <script type="text/html">
+    <div
+      id="tf_template" class="pinentry bg-red-100 border-1 border-black px-9 py-3 mx-4 my-4 rounded-sm w-fit text-center"
+    >
+      ANSWER
+    </div>
+  </script>
+</html>

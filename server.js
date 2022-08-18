@@ -4,8 +4,79 @@ const app = express();
 const WebSocketServer = require("ws").Server;
 const path = require("path");
 const port = process.env.PORT || 8011;
-let playerList = [];
-let roomList = ["123456"];
+
+// Player Data
+
+// PlayerList in each room
+let playerList = {
+  123456: [
+    ["df5dc33af121", "Joe538"],
+    ["af5dc33af122", "Joe537"],
+  ],
+  111111: [["df5dc33af121", "Joe538"]],
+};
+class kPlayer {
+  constructor(clientID, username, room) {
+    this.room = room;
+    this.identity = [clientID, username];
+  }
+}
+let playerData = { df5dc33af121: { points: 999999 } };
+
+// Room Data
+
+let roomList = ["123456", "111111"];
+
+// Room Data
+let roomData = {
+  // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[QUESTIONS, ...], A:[ANSWERS, ...]}]
+  123456: [
+    "inProgress",
+    0,
+    3,
+    "animals",
+    {
+      // Questions and their timeout
+      Q: [
+        ["Dogs cannot smell", 10],
+        ["Dogs are fat", 5],
+        ["Doge is the best", 30],
+      ],
+      // Possible answers to questions above
+      _metadata: [
+        ["True", "False"],
+        ["True", "False"],
+        ["True", "False"],
+      ],
+      // Answers as indexed in _metadata
+      A: [0, 0, 1],
+    },
+  ],
+  111111: [
+    "init",
+    10,
+    0,
+    "animals",
+    {
+      // Questions and their timeout
+      Q: [
+        ["Dogs cannot smell", 10],
+        ["Dogs are fat", 5],
+        ["Doge is the best", 30],
+      ],
+      // Possible answers to questions above
+      _metadata: [
+        ["True", "False"],
+        ["True", "False"],
+        ["True", "False"],
+      ],
+      // Answers as indexed in _metadata
+      A: [0, 0, 1],
+    },
+  ],
+};
+// Limit the amount of people that can join these rooms
+const roomLimit = 2;
 
 app.use(cors());
 
@@ -49,17 +120,109 @@ server.on("upgrade", (request, socket, head) => {
 
 ws.on("connection", (websocketConnection) => {
   console.log("[CONNECTION] Client is Attempting To Connect!");
-
   //   websocketConnection.send();
-
   websocketConnection.on("message", (message) => {
     let data;
     // Check is isJSON
     try {
       data = JSON.parse(message);
+      console.log(data);
     } catch (error) {
       console.warn("[SUBSYSTEM] Format Unsupported");
       return;
+    }
+
+    // Check if this is an initialization message
+
+    if ("identity" in data) {
+      let userExists = false;
+      // Check if this player already exists in the database
+      // If so, we send him the current question
+      // IDENTITY: [CID, USERNAME, ROOM]
+      playerList[parseInt(data.identity[2])].forEach((player, index) => {
+        // console.log(index);
+        try {
+          if (player[index].includes(data.identity[0])) {
+            console.log(
+              "[FLOW] User " +
+                data.identity[1] +
+                ` (${data.identity[0]})` +
+                " has rejoined the game (ROOM ID: " +
+                data.identity[2] +
+                ")"
+            );
+            userExists = true;
+            // Send current question along with possible choices through WebSocket to the client
+            websocketConnection.send(
+              JSON.stringify([
+                roomData[parseInt(data.identity[2])][4]["Q"][
+                  roomData[parseInt(data.identity[2])][2]
+                ],
+                roomData[parseInt(data.identity[2])][4]["_metadata"][
+                  roomData[parseInt(data.identity[2])][2]
+                ],
+              ])
+            );
+            return;
+          }
+        } catch (error) {
+          console.log("[CONNECTION] MALFORMED REQUEST!!!");
+          console.log(data);
+          websocketConnection.close();
+        }
+      });
+
+      // If the user doesn't exist append him to the roster
+      if (!userExists) {
+        appendUser();
+      }
+      function appendUser() {
+        // If the room is inProgress don't let them in
+        // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[QUESTIONS, ...], A:[ANSWERS, ...]}]
+
+        if (roomData[parseInt(data.identity[2])][0] == "inProgress") {
+          websocketConnection.send(JSON.stringify(["IN_PROGRESS"]));
+          websocketConnection.close();
+          return;
+        }
+        // If the room is full we don't let them in
+        if (playerList[parseInt(data.identity[2])].length > roomLimit) {
+          websocketConnection.send(JSON.stringify(["FULL"]));
+          websocketConnection.close();
+          return;
+        }
+        // Otherwise we add them to the player list
+        else {
+          // Create a new player
+          const player = new kPlayer(
+            data.identity[0], // Client
+            data.identity[1], // Username
+            data.identity[2] // Room
+          );
+          // If the room is empty we start counting down
+          // as soon as one person joins
+          if (playerList[parseInt(player.room)].length == 0) {
+            setInterval(() => {
+              if (parseInt(roomData[parseInt(player.room)][1]) != 0) {
+                roomData[player.room][1] =
+                  parseInt(roomData[parseInt(player.room)][1]) - 1;
+              }
+            }, 1000);
+          }
+          // Assign the player his room
+          playerList[parseInt(player.room)].push(player.identity);
+          // Create some new data
+          playerData[player.identity[0]] = { points: 0 };
+
+          // Add one to the countdown
+          roomData[parseInt(player.room)][1] =
+            parseInt(roomData[parseInt(player.room)][1]) + 1;
+
+          websocketConnection.send(
+            JSON.stringify([roomData[parseInt(player.room)][1]])
+          );
+        }
+      }
     }
   });
 });

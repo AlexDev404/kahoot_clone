@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../assets/css/tailwind.css" />
+    <title>Document</title>
+    <style>
+      main {
+        overflow: hidden;
+      }
+      html {
+        background: black;
+      }
+      body {
+        background: url("../assets/png/serverdown.png") no-repeat;
+        background-size: cover;
+      }
+      color-red {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="select-none">
+      <div
+        class="main w-full h-screen flex justify-center items-center flex-wrap text-white"
+      >
+        <div class="notice bg-black opacity-75 px-10 py-10">
+          <div class="message text-4xl font-bold">
+            <color-red>YOU</color-red> HAVE BEEN <color-red>KICKED</color-red>
+          </div>
+          <div
+            class="subtitle pt-2 basis-full font-light"
+            style="flex-basis: 100%"
+          >
+            You have been kicked from the server. The reason for this is unknown.
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
