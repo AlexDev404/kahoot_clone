@@ -57,11 +57,11 @@ function boarding(client, room) {
   console.log("BOARD");
   if (wsOpen) {
     // Sign in
-    try {
+    if(username.value != null) {
      
         ws.send(JSON.stringify({ identity: [client, username.value, room] }));
  
-    } catch (error) {
+    } else {
       // We are in a game
       ws.send(JSON.stringify({ identity: [client, username, room] }));
     }
