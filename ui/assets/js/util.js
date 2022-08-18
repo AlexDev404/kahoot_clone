@@ -40,11 +40,8 @@ function sID(od, nd) {
 function init() {
   if ("WebSocket" in window) {
     // Let us open a web socket
-    try {
-      ws = new WebSocket(address);
-    } catch (error) {
-      window.location.href = "index.html";
-    }
+
+    ws = new WebSocket(address);
     ws.onopen = function () {
       // Web Socket is connected, send data using send()
       wsOpen = true;
