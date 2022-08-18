@@ -36,16 +36,18 @@
   </head>
   <body>
     <header
-      class="flex flex-wrap space-around bg-red-900 text-white w-full py-4"
+      class="flex flex-wrap space-around bg-gray-900 text-white w-full py-4"
     >
+    <div class="actionContainer mx-4">
       <div
-        class="exit-room px-4 py-2 mx-2 bg-red-500 hover:bg-red-600 rounded-sm select-none cursor-pointer"
+        class="exit-room px-4 py-2 bg-red-500 hover:bg-red-600 rounded-sm select-none cursor-pointer"
         onclick="localStorage.clear(); window.location.href = 'index.html'"
       >
         Exit Room
       </div>
+    </div>
     </header>
-    <main class="flex flex-wrap justify-center items-center w-screen h-screen">
+    <main class="flex flex-wrap justify-center items-center w-full h-screen">
       <div
         class="pin_container flex flex-wrap w-fit text-center justify-center"
       >
