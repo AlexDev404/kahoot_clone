@@ -19,9 +19,9 @@ function preflight(code) {
           pin_content.classList.add("border-green-200");
           blocker_sub.classList.remove("text-red-200");
           blocker_sub.classList.add("text-white");
-          blocker_sub.innerText = "Success.";
+          blocker_sub.innerText = "Success";
           setTimeout(()=>{
-          blocker_sub.innerText = "Transfer in progress... Hold on";
+          blocker_sub.innerText = "Transfer in progress";
         }, 500)
           setTimeout(() => {
             localStorage.setItem("room", code);

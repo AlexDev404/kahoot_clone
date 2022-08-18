@@ -3,6 +3,7 @@ const server = localStorage.getItem("server");
 const address = `ws://${server}`;
 const room = localStorage.getItem("room");
 let countdown = 0;
+let countDownStarted = false;
 let wsOpen = false;
 
 /**
@@ -26,17 +27,20 @@ function listen() {
           blocker_sub.innerText = "ROOM IS FULL";
           break;
         default:
+          countdown = data[0];
           if (typeof data[0] == "number") {
-            countdown = data[0];
-            setInterval(() => {
-              if (countdown != -1) {
-                blocker_sub.innerHTML =
-                  "GAME IS STARTING IN " + "<b>" + countdown + "</b>";
-                countdown--;
-              } else {
-                window.location.href = "game.html";
-              }
-            }, 1000);
+            if (!countDownStarted) {
+              setInterval(() => {
+                if (countdown != -1) {
+                  blocker_sub.innerHTML =
+                    "GAME IS STARTING IN " + "<b>" + countdown + "</b>";
+                  countdown--;
+                } else {
+                  window.location.href = "game.html";
+                }
+              }, 1000);
+              countDownStarted = true;
+            }
           } else {
             blocker_sub.innerText = "REJOINING GAME...";
             window.location.href = "game.html";

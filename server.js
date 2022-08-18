@@ -76,7 +76,7 @@ let roomData = {
   ],
 };
 // Limit the amount of people that can join these rooms
-const roomLimit = 2;
+const roomLimit = 10;
 
 app.use(cors());
 
@@ -229,9 +229,8 @@ ws.on("connection", (websocketConnection) => {
           roomData[parseInt(player.room)][1] =
             parseInt(roomData[parseInt(player.room)][1]) + 1;
 
-          websocketConnection.send(
-            JSON.stringify([roomData[parseInt(player.room)][1]])
-          );
+            // Broadcast this to all users
+          ws.broadcast(JSON.stringify([roomData[parseInt(player.room)][1]]));
         }
       }
     }
