@@ -30,14 +30,14 @@ let roomList = ["123456", "111111", "999999"];
 
 // Room Data
 let roomData = {
-  // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[QUESTIONS, ...], _metadata: [[POSSIBLECHOICES, ...]], A:[ANSWERS, ...]}]
+  // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[[QUESTION, TIMEOUT], [..., ...]], _metadata: [[POSSIBLECHOICES, ...]], A:[ANSWERS, ...]}]
   999999: [
     "init",
     10,
     0,
     "Cats",
     {
-      Q: ["Some kind of cat question"],
+      Q: [["Some kind of cat question", 5]],
       _metadata: [["True", "False"]],
       A: [0],
     },
@@ -176,7 +176,7 @@ ws.on("connection", (websocketConnection) => {
                   roomData[parseInt(data.identity[2])][2]
                 ],
                 roomData[parseInt(data.identity[2])][2],
-                roomData[parseInt(data.identity[2])][4]["Q"].length,
+                roomData[parseInt(data.identity[2])][4]["Q"].length - 1,
               ])
             );
             return;
@@ -226,9 +226,14 @@ ws.on("connection", (websocketConnection) => {
               if (parseInt(roomData[parseInt(player.room)][1]) != 0) {
                 roomData[player.room][1] =
                   parseInt(roomData[parseInt(player.room)][1]) - 1;
+              } else {
+                roomData[parseInt(data.identity[2])][0] = "inProgress";
               }
             }, 1000);
           }
+
+          // If the countdown is finished we switch the room status to "inProgress"
+
           // Assign the player his room
           playerList[parseInt(player.room)].push(player.identity);
           // console.log("PL==========");
@@ -237,9 +242,9 @@ ws.on("connection", (websocketConnection) => {
           playerData[player.identity[0]] = { points: 0 };
           // console.log("PD==========");
           // console.log(playerData);
-          // Add one to the countdown
+          // Add 5s to the countdown
           roomData[parseInt(player.room)][1] =
-            parseInt(roomData[parseInt(player.room)][1]) + 1;
+            parseInt(roomData[parseInt(player.room)][1]) + 5;
 
           // Broadcast this to all users
           ws.broadcast(JSON.stringify([roomData[parseInt(player.room)][1]]));
