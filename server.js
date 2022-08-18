@@ -5,88 +5,26 @@ const WebSocketServer = require("ws").Server;
 const path = require("path");
 const port = process.env.PORT || 8011;
 
-// Player Data
+// Players
 
+// Player Data
+let playerData = require("./system/players/players.data.global.json");
 // PlayerList in each room
-let playerList = {
-  123456: [
-    ["df5dc33af121", "Joe538"],
-    ["af5dc33af122", "Joe537"],
-  ],
-  111111: [["df5dc33af121", "Joe538"]],
-  999999: [],
-};
+let playerList = require("./system/players/players.list.global.json");
+
 class kPlayer {
   constructor(clientID, username, room) {
     this.room = room;
     this.identity = [clientID, username];
   }
 }
-let playerData = { df5dc33af121: { points: 999999 } };
 
+// Rooms
+
+// Room List
+let roomList = require("./system/rooms/rooms.list.global.json");
 // Room Data
-
-let roomList = ["123456", "111111", "999999"];
-
-// Room Data
-let roomData = {
-  // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[[QUESTION, TIMEOUT], [..., ...]], _metadata: [[POSSIBLECHOICES, ...]], A:[ANSWERS, ...]}]
-  999999: [
-    "init",
-    30,
-    0,
-    "Cats",
-    {
-      Q: [["Some kind of cat question", 5]],
-      _metadata: [["True", "False"]],
-      A: [0],
-    },
-  ],
-  123456: [
-    "inProgress",
-    0,
-    3,
-    "animals",
-    {
-      // Questions and their timeout
-      Q: [
-        ["Dogs cannot smell", 10],
-        ["Dogs are fat", 5],
-        ["Doge is the best", 30],
-      ],
-      // Possible answers to questions above
-      _metadata: [
-        ["True", "False"],
-        ["True", "False"],
-        ["True", "False"],
-      ],
-      // Answers as indexed in _metadata
-      A: [0, 0, 1],
-    },
-  ],
-  111111: [
-    "init",
-    10,
-    0,
-    "animals",
-    {
-      // Questions and their timeout
-      Q: [
-        ["This is a question", 10],
-        ["Dogs are fat", 5],
-        ["Doge is the best", 30],
-      ],
-      // Possible answers to questions above
-      _metadata: [
-        ["True", "False"],
-        ["True", "False"],
-        ["True", "False"],
-      ],
-      // Answers as indexed in _metadata
-      A: [0, 0, 1],
-    },
-  ],
-};
+let roomData = require("./system/rooms/rooms.data.global.js").default;
 // Limit the amount of people that can join these rooms
 const roomLimit = 10;
 
