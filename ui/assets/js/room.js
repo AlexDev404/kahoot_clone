@@ -50,7 +50,7 @@ function listen() {
     //   blocker.toggleAttribute("disabled");
     // }
     localStorage.clear();
-    window.location.href = "./errors/kick.html"
+    // window.location.href = "./errors/kick.html"
   });
 }
 

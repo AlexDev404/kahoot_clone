@@ -24,6 +24,7 @@ function listen() {
     q_index.innerHTML = `Question ${parseInt(data[2]) + 1} out of ${
       parseInt(data[3]) + 1
     }`;
+    user.innerHTML = `Signed in as <b>${username}</b>`;
     // Set question title
     question_title.innerText = data[0][0];
     // Set possible answers
