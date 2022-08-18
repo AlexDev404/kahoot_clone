@@ -141,8 +141,10 @@ ws.on("connection", (websocketConnection) => {
       // IDENTITY: [CID, USERNAME, ROOM]
       playerList[parseInt(data.identity[2])].forEach((player, index) => {
         // console.log(index);
+        // console.log(player[0]);
+
         try {
-          if (player[index].includes(data.identity[0])) {
+          if (player[0].includes(data.identity[0])) {
             console.log(
               "[FLOW] User " +
                 data.identity[1] +
@@ -168,6 +170,10 @@ ws.on("connection", (websocketConnection) => {
         } catch (error) {
           console.log("[CONNECTION] MALFORMED REQUEST!!!");
           console.log(data);
+          console.log("PL==========");
+          console.log(playerList);
+          console.log("PD==========");
+          console.log(playerData);
           websocketConnection.close();
         }
       });
@@ -211,9 +217,12 @@ ws.on("connection", (websocketConnection) => {
           }
           // Assign the player his room
           playerList[parseInt(player.room)].push(player.identity);
+          // console.log("PL==========");
+          // console.log(playerList);
           // Create some new data
           playerData[player.identity[0]] = { points: 0 };
-
+          // console.log("PD==========");
+          // console.log(playerData);
           // Add one to the countdown
           roomData[parseInt(player.room)][1] =
             parseInt(roomData[parseInt(player.room)][1]) + 1;
