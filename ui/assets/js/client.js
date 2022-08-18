@@ -1,12 +1,23 @@
+setTimeout(() => {
+  if (
+    localStorage.getItem("client") != null &&
+    localStorage.getItem("server") != null &&
+    localStorage.getItem("username") != null
+  ) {
+    document.body.classList.add("select-none");
+    window.location.href = "room.html";
+  }
+}, 550);
+
 pin.addEventListener("submit", (e) => {
   preflight(pin_content.value);
 });
 
 /**
- * 
+ *
  * @param {Number} code The room code
  * @brief Pre-flight process: Check if boarding-code is valid with the server and then transfer to the room if possible
- * 
+ *
  */
 function preflight(code) {
   blocker.classList.toggle("hidden");
@@ -20,9 +31,9 @@ function preflight(code) {
           blocker_sub.classList.remove("text-red-200");
           blocker_sub.classList.add("text-white");
           blocker_sub.innerText = "Success";
-          setTimeout(()=>{
-          blocker_sub.innerText = "Transfer in progress";
-        }, 500)
+          setTimeout(() => {
+            blocker_sub.innerText = "Transfer in progress";
+          }, 500);
           setTimeout(() => {
             localStorage.setItem("room", code);
             localStorage.setItem("client", client_id);

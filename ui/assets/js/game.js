@@ -40,5 +40,6 @@ function listen() {
     // }
     console.warn("You have been kicked by the server.");
     localStorage.clear();
+    window.location.href = "./errors/kick.html"
   });
 }

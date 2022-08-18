@@ -1,3 +1,15 @@
+setTimeout(() => {
+  if (
+    localStorage.getItem("client") != null &&
+    localStorage.getItem("server") != null &&
+    localStorage.getItem("username") != null
+  ) {
+    document.body.classList.add("select-none");
+    window.location.href = "game.html";
+  }
+}, 550);
+
+
 const client = localStorage.getItem("client");
 const server = localStorage.getItem("server");
 const address = `ws://${server}`;
@@ -21,10 +33,18 @@ function listen() {
         case "IN_PROGRESS":
           blocker_title.innerText = "CONNECTION FAILED WITH ERROR";
           blocker_sub.innerText = "GAME HAS ALREADY STARTED";
+          localStorage.clear();
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 5000);
           break;
         case "FULL":
           blocker_title.innerText = "CONNECTION FAILED WITH ERROR";
           blocker_sub.innerText = "ROOM IS FULL";
+          localStorage.clear();
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 5000);
           break;
         default:
           countdown = data[0];
@@ -54,6 +74,6 @@ function listen() {
     //   blocker.toggleAttribute("disabled");
     // }
     localStorage.clear();
-    // window.location.href = "./errors/kick.html"
+    window.location.href = "./errors/kick.html";
   });
 }
