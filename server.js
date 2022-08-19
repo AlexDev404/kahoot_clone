@@ -5,6 +5,8 @@ const WebSocketServer = require("ws").Server;
 const path = require("path");
 const port = process.env.PORT || 8011;
 
+let answerData = { 111111: [], 999999: [] };
+
 // Players
 
 // Player Data
@@ -187,8 +189,17 @@ ws.on("connection", (websocketConnection) => {
                 roomData[player.room][1] =
                   parseInt(roomData[parseInt(player.room)][1]) - 1;
               } else {
-                // Constantly sets to inProgress if there are players in the room
-                if (playerList[parseInt(player.room)].length != 0) {
+                // Sets to inProgress if there are players in the room
+                if (
+                  playerList[parseInt(player.room)].length != 0 &&
+                  roomData[parseInt(data.identity[2])][0] != "inProgress"
+                ) {
+                  console.log(
+                    `[ROOMS] Locked off ${parseInt(
+                      player.room
+                    )} to new players.`
+                  );
+
                   roomData[parseInt(data.identity[2])][0] = "inProgress";
                 }
               }
@@ -244,11 +255,11 @@ ws.on("connection", (websocketConnection) => {
        * ✅ 1. We look at the room ID
        * ✅ 2. And then we parse the message and verify the user is in the player list
        * by checking the client ID against the database
-       * 3. We then delay the sending of the answer if there is more than one person
+       * ✅ 3. We then delay the sending of the answer if there is more than one person
        * in the room. We wait for everybody to post their answers or wait for the
        * question's countdown to expire
        * ✅ 4. Afterward, we verify if the answer is correct
-       * 5. If the answer is correct then we send true if the answer is correct or
+       * ✅ 5. If the answer is correct then we send true if the answer is correct or
        * False if it's incorrect along with an initialization message with the
        * next question constructed as so:
        *
@@ -261,41 +272,54 @@ ws.on("connection", (websocketConnection) => {
        */
       try {
         console.log(data);
+        // If the user is in the room
         if (isInRoom(data[0], data[1])) {
+          // If everyone didn't answer
           if (
-            parseInt(data[2]) ==
-            parseInt(roomData[parseInt(data[1])][4]["A"][0])
+            answerData[parseInt(data[1])].length !=
+            playerList[parseInt(data[1])].length
           ) {
-            console.log(
-              roomData[parseInt(data[1])][2],
-              roomData[parseInt(data[1])][4]["Q"].length - 1
-            );
+            // We then check if he's in the answer list
+            if (!answerData[data[1]].includes(data[0])) {
+              // If not
+              // We then add his answer (whether correct or not) to the answerList
+              // By adding one to the answerData[room]
+              answerData[data[1]].push(data[0]);
+            }
+          }
+          ////////////////////////////
+          // // If the answer is correct
+          // if (
+          //   parseInt(data[2]) ==
+          //   parseInt(roomData[parseInt(data[1])][4]["A"][0])
+          // ) {
+          ///////////////////////////
+          //  We consolelog the current question along with the length and who all answered along
+          // with the total users in the room
+          console.log(
+            roomData[parseInt(data[1])][2],
+            roomData[parseInt(data[1])][4]["Q"].length - 1,
+            answerData[parseInt(data[1])].length,
+            playerList[parseInt(data[1])].length
+          );
+          // And if everybody answered,
+          if (
+            answerData[parseInt(data[1])].length ==
+            playerList[parseInt(data[1])].length
+          ) {
+            // If the current question equals to the total question length
             if (
               roomData[parseInt(data[1])][2] !=
               roomData[parseInt(data[1])][4]["Q"].length - 1
             ) {
+              // We progress the question
               roomData[parseInt(data[1])][2] =
                 roomData[parseInt(data[1])][2] + 1;
             }
-            websocketConnection.send(
+            // And then tell everybody what the actual answer was along with the next question (response schema above)
+            ws.broadcast(
               JSON.stringify([
-                true,
-                [
-                  roomData[parseInt(data[1])][4]["Q"][
-                    roomData[parseInt(data[1])][2]
-                  ],
-                  roomData[parseInt(data[1])][4]["_metadata"][
-                    roomData[parseInt(data[1])][2]
-                  ],
-                  roomData[parseInt(data[1])][2],
-                  roomData[parseInt(data[1])][4]["Q"].length - 1,
-                ],
-              ])
-            );
-          } else{
-            websocketConnection.send(
-              JSON.stringify([
-                false,
+                parseInt(roomData[parseInt(data[1])][4]["A"][0]),
                 [
                   roomData[parseInt(data[1])][4]["Q"][
                     roomData[parseInt(data[1])][2]
@@ -309,6 +333,42 @@ ws.on("connection", (websocketConnection) => {
               ])
             );
           }
+          // }
+          //else {
+          //   // Otherwise if the answer was incorrect
+          //   // If everybody has slotted in their answers
+
+          //   if (
+          //     answerData[parseInt(data[1])] ==
+          //     roomData[parseInt(data[1])].length
+          //   ) {
+          //     // We progress the question (same as above)
+          //     if (
+          //       roomData[parseInt(data[1])][2] !=
+          //       roomData[parseInt(data[1])][4]["Q"].length - 1
+          //     ) {
+          //       // By increasing the current question by one
+          //       roomData[parseInt(data[1])][2] =
+          //         roomData[parseInt(data[1])][2] + 1;
+          //     }
+          //     // And tell everyone what the answer was
+          //     ws.broadcast(
+          //       JSON.stringify([
+          //         parseInt(roomData[parseInt(data[1])][4]["A"][0]),
+          //         [
+          //           roomData[parseInt(data[1])][4]["Q"][
+          //             roomData[parseInt(data[1])][2]
+          //           ],
+          //           roomData[parseInt(data[1])][4]["_metadata"][
+          //             roomData[parseInt(data[1])][2]
+          //           ],
+          //           roomData[parseInt(data[1])][2],
+          //           roomData[parseInt(data[1])][4]["Q"].length - 1,
+          //         ],
+          //       ])
+          //     );
+          //   }
+          // }
         }
       } catch (error) {
         console.log("Data is malformed");

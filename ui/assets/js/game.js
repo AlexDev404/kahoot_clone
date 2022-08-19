@@ -52,35 +52,38 @@ function listen() {
       }
       landing = false;
     } else {
-      if (data[0] == true) {
-        question_title.innerHTML = "";
-        question_pane.innerHTML = "";
-        q_index.innerHTML = `Question ${parseInt(data[1][2]) + 1} out of ${
-          parseInt(data[1][3]) + 1
-        }`;
-        user.innerHTML = `Signed in as <b>${username}</b>`;
-        // Set question title
-        question_title.innerText = data[1][0][0];
-        // Set possible answers
-        try {
-          data[1][1].forEach((answer, index) => {
-            question_pane.insertAdjacentHTML(
-              "beforeend",
-              tf_template.innerHTML
-            );
-            tf_a.innerHTML = answer;
-            sID("tf_a", index);
-          });
-        } catch (error) {
-          window.location.reload();
-        }
-      } else {
-        setTimeout(() => {
-          document
-            .getElementById(answerNow)
-            .classList.add("bg-red-600", "hover:bg-red-700", "text-white");
-        }, 550);
-      }
+      // if (data[0] == true) {
+      //   question_title.innerHTML = "";
+      //   question_pane.innerHTML = "";
+      //   q_index.innerHTML = `Question ${parseInt(data[1][2]) + 1} out of ${
+      //     parseInt(data[1][3]) + 1
+      //   }`;
+      //   user.innerHTML = `Signed in as <b>${username}</b>`;
+      //   // Set question title
+      //   question_title.innerText = data[1][0][0];
+      //   // Set possible answers
+      //   try {
+      //     data[1][1].forEach((answer, index) => {
+      //       question_pane.insertAdjacentHTML(
+      //         "beforeend",
+      //         tf_template.innerHTML
+      //       );
+      //       tf_a.innerHTML = answer;
+      //       sID("tf_a", index);
+      //     });
+      //   } catch (error) {
+      //     window.location.reload();
+      //   }
+      // } else {
+      //   setTimeout(() => {
+      //     document
+      //       .getElementById(answerNow)
+      //       .classList.add("bg-red-600", "hover:bg-red-700", "text-white");
+      //   }, 550);
+      // }
+      localStorage.setItem("answer", data[0]);
+      localStorage.setItem("myAnswer", answerNow);
+      window.location.href = "result.html";
     }
   });
   ws.addEventListener("close", () => {
@@ -101,6 +104,7 @@ function postAnswer(answer) {
   if (wsOpen) {
     ws.send(JSON.stringify([client, room, answer]));
     answerNow = answer;
+    _blocker.classList.toggle("hidden");
   }
 }
 
