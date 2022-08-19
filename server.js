@@ -332,6 +332,8 @@ ws.on("connection", (websocketConnection) => {
                 ],
               ])
             );
+            // We then reset this counter
+            answerData[data[1]] = [];
           }
           // }
           //else {
