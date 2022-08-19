@@ -117,7 +117,8 @@ ws.on("connection", (websocketConnection) => {
                   ],
                   roomData[parseInt(data.identity[2])][2],
                   roomData[parseInt(data.identity[2])][4]["Q"].length - 1,
-                  roomData[parseInt(data.identity[2])][3]])
+                  roomData[parseInt(data.identity[2])][3],
+                ])
               );
               return;
             }
@@ -307,6 +308,7 @@ ws.on("connection", (websocketConnection) => {
             playerList[parseInt(data[1])].length
           ) {
             // If the current question equals to the total question length
+            console.log(roomData[parseInt(data[1])][2]);
             if (
               roomData[parseInt(data[1])][2] !=
               roomData[parseInt(data[1])][4]["Q"].length - 1
@@ -316,9 +318,14 @@ ws.on("connection", (websocketConnection) => {
                 roomData[parseInt(data[1])][2] + 1;
             }
             // And then tell everybody what the actual answer was along with the next question (response schema above)
+
             ws.broadcast(
               JSON.stringify([
-                parseInt(roomData[parseInt(data[1])][4]["A"][0]),
+                parseInt(
+                  roomData[parseInt(data[1])][4]["A"][
+                    roomData[parseInt(data[1])][2] - 1
+                  ]
+                ),
                 [
                   roomData[parseInt(data[1])][4]["Q"][
                     roomData[parseInt(data[1])][2]
@@ -418,7 +425,9 @@ function killPlayer(client_, room) {
       if (playerList[parseInt(room)].length == 0) {
         roomData[parseInt(room)][0] = "init";
         console.log(
-          `[ROOMS] Temporarily unlocked ${parseInt(room)} to new players for 60 seconds.`
+          `[ROOMS] Temporarily unlocked ${parseInt(
+            room
+          )} to new players for 60 seconds.`
         );
       }
       // Check if the room is empty; if so mark the game as ended after 15 seconds

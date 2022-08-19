@@ -3,6 +3,8 @@ const server = localStorage.getItem("server");
 const username = localStorage.getItem("username");
 const room = localStorage.getItem("room");
 const address = `ws://${server}`;
+let questionTimeout__limit;
+let questionTimeout;
 let answerNow;
 let landing = true;
 let countdown = 0;
@@ -42,6 +44,30 @@ function listen() {
       user.innerHTML = `Signed in as <b>${username}</b>`;
       // Set question title
       question_title.innerText = data[0][0];
+      // Set the timeout rules
+      questionTimeout = data[0][1];
+      questionTimeout__limit = questionTimeout;
+      question_timeout.innerText = questionTimeout;
+      setInterval(() => {
+        // If timeout is half-way
+        if (questionTimeout == Math.round(questionTimeout__limit / 2)) {
+          question_timeout.classList.remove("bg-green-500");
+          question_timeout.classList.add("bg-yellow-500");
+        }
+        // If timeout is quarter-way
+        if (questionTimeout == Math.round(questionTimeout__limit / 4)) {
+          question_timeout.classList.remove("bg-yellow-500");
+          question_timeout.classList.add("bg-red-500");
+        }
+        // Keep subtracting till we reach zero
+        if (questionTimeout != -1) {
+          question_timeout.innerText = questionTimeout;
+          questionTimeout--;
+        } else {
+          // If time is up we just post something random
+          postAnswer(uuid());
+        }
+      }, 1000);
       // Set possible answers
       try {
         data[1].forEach((answer, index) => {
