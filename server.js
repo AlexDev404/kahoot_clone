@@ -307,23 +307,13 @@ ws.on("connection", (websocketConnection) => {
             answerData[parseInt(data[1])].length ==
             playerList[parseInt(data[1])].length
           ) {
-            // If the current question equals to the total question length
-            console.log(roomData[parseInt(data[1])][2]);
-            if (
-              roomData[parseInt(data[1])][2] !=
-              roomData[parseInt(data[1])][4]["Q"].length - 1
-            ) {
-              // We progress the question
-              roomData[parseInt(data[1])][2] =
-                roomData[parseInt(data[1])][2] + 1;
-            }
             // And then tell everybody what the actual answer was along with the next question (response schema above)
 
             ws.broadcast(
               JSON.stringify([
                 parseInt(
                   roomData[parseInt(data[1])][4]["A"][
-                    roomData[parseInt(data[1])][2] - 1
+                    roomData[parseInt(data[1])][2]
                   ]
                 ),
                 [
@@ -338,6 +328,17 @@ ws.on("connection", (websocketConnection) => {
                 ],
               ])
             );
+
+            // If the current question equals to the total question length
+            // console.log(roomData[parseInt(data[1])][2]);
+            if (
+              roomData[parseInt(data[1])][2] !=
+              roomData[parseInt(data[1])][4]["Q"].length - 1
+            ) {
+              // We progress the question
+              roomData[parseInt(data[1])][2] =
+                roomData[parseInt(data[1])][2] + 1;
+            }
             // We then reset this counter
             answerData[data[1]] = [];
           }
