@@ -3,6 +3,8 @@ const server = localStorage.getItem("server");
 const username = localStorage.getItem("username");
 const room = localStorage.getItem("room");
 const address = `ws://${server}`;
+let answerNow;
+let landing = true;
 let countdown = 0;
 let wsOpen = false;
 
@@ -31,21 +33,54 @@ function listen() {
       window.location.href = "index.html";
     }
 
-    q_index.innerHTML = `Question ${parseInt(data[2]) + 1} out of ${
-      parseInt(data[3]) + 1
-    }`;
-    user.innerHTML = `Signed in as <b>${username}</b>`;
-    // Set question title
-    question_title.innerText = data[0][0];
-    // Set possible answers
-    try {
-      data[1].forEach((answer, index) => {
-        question_pane.insertAdjacentHTML("beforeend", tf_template.innerHTML);
-        tf_a.innerHTML = answer;
-        sID("tf_a", index);
-      });
-    } catch (error) {
-      window.location.reload();
+    if (landing) {
+      q_index.innerHTML = `Question ${parseInt(data[2]) + 1} out of ${
+        parseInt(data[3]) + 1
+      }`;
+      user.innerHTML = `Signed in as <b>${username}</b>`;
+      // Set question title
+      question_title.innerText = data[0][0];
+      // Set possible answers
+      try {
+        data[1].forEach((answer, index) => {
+          question_pane.insertAdjacentHTML("beforeend", tf_template.innerHTML);
+          tf_a.innerHTML = answer;
+          sID("tf_a", index);
+        });
+      } catch (error) {
+        window.location.reload();
+      }
+      landing = false;
+    } else {
+      if (data[0] == true) {
+        question_title.innerHTML = "";
+        question_pane.innerHTML = "";
+        q_index.innerHTML = `Question ${parseInt(data[1][2]) + 1} out of ${
+          parseInt(data[1][3]) + 1
+        }`;
+        user.innerHTML = `Signed in as <b>${username}</b>`;
+        // Set question title
+        question_title.innerText = data[1][0][0];
+        // Set possible answers
+        try {
+          data[1][1].forEach((answer, index) => {
+            question_pane.insertAdjacentHTML(
+              "beforeend",
+              tf_template.innerHTML
+            );
+            tf_a.innerHTML = answer;
+            sID("tf_a", index);
+          });
+        } catch (error) {
+          window.location.reload();
+        }
+      } else {
+        setTimeout(() => {
+          document
+            .getElementById(answerNow)
+            .classList.add("border-2", "border-red-900");
+        }, 550);
+      }
     }
   });
   ws.addEventListener("close", () => {
@@ -65,6 +100,7 @@ function listen() {
 function postAnswer(answer) {
   if (wsOpen) {
     ws.send(JSON.stringify([client, room, answer]));
+    answerNow = answer;
   }
 }
 

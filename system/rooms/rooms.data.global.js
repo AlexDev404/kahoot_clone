@@ -28,6 +28,7 @@ exports.default = {
   "123456": [
     "inProgress",
     0,
+    // Current question is 3
     3,
     "Progression",
     {

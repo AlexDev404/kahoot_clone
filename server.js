@@ -212,11 +212,12 @@ ws.on("connection", (websocketConnection) => {
           // Broadcast this to all users
           ws.broadcast(JSON.stringify([roomData[parseInt(player.room)][1]]));
         }
+        return;
       }
     }
 
     // Check if this is a remove request
-    if ("remove" in data) {
+    else if ("remove" in data) {
       // Search till we find user
       try {
         killPlayer(data.remove[0], data.remove[1]);
@@ -240,21 +241,80 @@ ws.on("connection", (websocketConnection) => {
        * If the user is the president of the united states or not, we just
        * Don't want the server to crash since we have more clients that
        * Need the service. To start off,
-       * 1. We look at the room ID
-       * 2. And then we parse the message and verify the user is in the player list
+       * ✅ 1. We look at the room ID
+       * ✅ 2. And then we parse the message and verify the user is in the player list
        * by checking the client ID against the database
        * 3. We then delay the sending of the answer if there is more than one person
        * in the room. We wait for everybody to post their answers or wait for the
        * question's countdown to expire
-       * 4. Afterward, we verify if the answer is correct
+       * ✅ 4. Afterward, we verify if the answer is correct
        * 5. If the answer is correct then we send true if the answer is correct or
        * False if it's incorrect along with an initialization message with the
        * next question constructed as so:
        *
-       * Answer Schema:
+       * Note that the request's variable is called "data"
+       * Request Schema:
+       * [client, room, answer]
        *
+       * Response Schema:
        * [True, [["This is the next question", 5], ["Answer One", "Answer 2"], Question_Now, Total_Questions]]
        */
+      try {
+        console.log(data);
+        if (isInRoom(data[0], data[1])) {
+          if (
+            parseInt(data[2]) ==
+            parseInt(roomData[parseInt(data[1])][4]["A"][0])
+          ) {
+            console.log(
+              roomData[parseInt(data[1])][2],
+              roomData[parseInt(data[1])][4]["Q"].length - 1
+            );
+            if (
+              roomData[parseInt(data[1])][2] !=
+              roomData[parseInt(data[1])][4]["Q"].length - 1
+            ) {
+              roomData[parseInt(data[1])][2] =
+                roomData[parseInt(data[1])][2] + 1;
+            }
+            websocketConnection.send(
+              JSON.stringify([
+                true,
+                [
+                  roomData[parseInt(data[1])][4]["Q"][
+                    roomData[parseInt(data[1])][2]
+                  ],
+                  roomData[parseInt(data[1])][4]["_metadata"][
+                    roomData[parseInt(data[1])][2]
+                  ],
+                  roomData[parseInt(data[1])][2],
+                  roomData[parseInt(data[1])][4]["Q"].length - 1,
+                ],
+              ])
+            );
+          } else{
+            websocketConnection.send(
+              JSON.stringify([
+                false,
+                [
+                  roomData[parseInt(data[1])][4]["Q"][
+                    roomData[parseInt(data[1])][2]
+                  ],
+                  roomData[parseInt(data[1])][4]["_metadata"][
+                    roomData[parseInt(data[1])][2]
+                  ],
+                  roomData[parseInt(data[1])][2],
+                  roomData[parseInt(data[1])][4]["Q"].length - 1,
+                ],
+              ])
+            );
+          }
+        }
+      } catch (error) {
+        console.log("Data is malformed");
+        console.log(error);
+        websocketConnection.close();
+      }
     }
   });
 });
@@ -303,11 +363,26 @@ function killPlayer(client_, room) {
         if (playerList[parseInt(room)].length == 0) {
           roomData[parseInt(room)][0] = "end";
           // console.log(roomData);
-          console.log(`Room ${room} was marked as dead`);
+          console.log(`[HOUSEKEEPING] Room ${room} was marked as dead`);
         }
       }, 15000);
 
       return;
     }
   });
+}
+
+/**
+ * @brief Finds if a player exists in a room and returns an array if true
+ * @param {String} client_ The clientID
+ * @param {String} room The room to check
+ */
+function isInRoom(client_, room) {
+  let ret = false;
+  playerList[parseInt(room)].forEach((player, index) => {
+    if (player[0].includes(client_)) {
+      ret = [true, index];
+    }
+  });
+  return ret;
 }
