@@ -418,6 +418,9 @@ function killPlayer(client_, room) {
       // Check if the room is empty; if so we mark it as open
       if (playerList[parseInt(room)].length == 0) {
         roomData[parseInt(room)][0] = "init";
+        console.log(
+          `[ROOMS] Temporarily unlocked ${parseInt(room)} to new players for 15 seconds.`
+        );
       }
       // Check if the room is empty; if so mark the game as ended after 15 seconds
       // If nobody joins
