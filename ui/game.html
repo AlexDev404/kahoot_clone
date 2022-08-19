@@ -35,6 +35,20 @@
     </style>
   </head>
   <body>
+    <div
+      id="blocker"
+      class="blocker flex flex-wrap justify-center items-center w-fit text-center select-none hidden"
+    >
+      <div class="announcement flex flex-wrap justify-center items-center">
+        <div class="title text-4xl text-white basis-full font-black">
+          CHECKING ROOM AVAILABILITY
+        </div>
+        <div
+          id="blocker_sub"
+          class="subtitle font-light text-2xl text-white"
+        ></div>
+      </div>
+    </div>
     <header
       class="flex flex-wrap space-around bg-gray-900 text-white w-full py-4"
     >
@@ -71,7 +85,7 @@
     <div
       id="tf_a"
       onclick="postAnswer(this.id)"
-      class="pinentry bg-red-100 hover:bg-red-200 border-1 border-black px-9 py-3 mx-4 my-4 rounded-sm w-fit text-center cursor-pointer font-semibold select-none"
+      class="pinentry bg-white hover:bg-gray-200 border-1 border-black px-9 py-3 mx-4 my-4 rounded-sm w-fit text-center cursor-pointer font-semibold select-none"
     ></div>
   </script>
 </html>

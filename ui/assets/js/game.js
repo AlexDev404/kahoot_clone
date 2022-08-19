@@ -78,7 +78,7 @@ function listen() {
         setTimeout(() => {
           document
             .getElementById(answerNow)
-            .classList.add("border-2", "border-red-900");
+            .classList.add("bg-red-600", "hover:bg-red-700", "text-white");
         }, 550);
       }
     }
