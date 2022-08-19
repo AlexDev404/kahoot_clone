@@ -67,3 +67,9 @@ function postAnswer(answer) {
     ws.send(JSON.stringify([client, room, answer]));
   }
 }
+
+function leave() {
+  if (wsOpen) {
+    ws.send(JSON.stringify({ remove: [client, room] }));
+  }
+}

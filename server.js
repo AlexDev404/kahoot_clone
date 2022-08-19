@@ -1,4 +1,3 @@
-const e = require("cors");
 const cors = require("cors");
 const express = require("express");
 const app = express();
@@ -84,14 +83,13 @@ ws.on("connection", (websocketConnection) => {
     }
 
     // Check if this is an initialization message
-
     if ("identity" in data) {
       let userExists = false;
       // Check if this player already exists in the database
       // If so, we send him the current question
       // IDENTITY: [CID, USERNAME, ROOM]
       try {
-        playerList[parseInt(data.identity[2])].forEach((player, index) => {
+        playerList[parseInt(data.identity[2])].forEach((player) => {
           // console.log(index);
           // console.log(player[0]);
 
@@ -123,7 +121,7 @@ ws.on("connection", (websocketConnection) => {
             }
           } catch (error) {
             console.log("[CONNECTION] MALFORMED REQUEST!!!");
-            console.log(data);
+            console.log(data, error);
             console.log("PL==========");
             console.log(playerList);
             console.log("PD==========");
@@ -133,7 +131,7 @@ ws.on("connection", (websocketConnection) => {
         });
       } catch (error) {
         console.log("[CONNECTION] MALFORMED REQUEST!!!");
-        console.log(data);
+        console.log(data, error);
         console.log("PL==========");
         console.log(playerList);
         console.log("PD==========");
@@ -150,6 +148,8 @@ ws.on("connection", (websocketConnection) => {
         // ROOM: [PROGRESSION, COUNTDOWN, CURRENT_QUESTION_INDEX, TOPIC, {Q:[QUESTIONS, ...], A:[ANSWERS, ...]}]
 
         try {
+          // console.log(roomData);
+          // console.log(data.identity[2]);
           if (roomData[parseInt(data.identity[2])][0] == "end") {
             websocketConnection.send(JSON.stringify(["NOT_FOUND"]));
             // websocketConnection.close();
@@ -187,7 +187,10 @@ ws.on("connection", (websocketConnection) => {
                 roomData[player.room][1] =
                   parseInt(roomData[parseInt(player.room)][1]) - 1;
               } else {
-                roomData[parseInt(data.identity[2])][0] = "inProgress";
+                // Constantly sets to inProgress if there are players in the room
+                if (playerList[parseInt(player.room)].length != 0) {
+                  roomData[parseInt(data.identity[2])][0] = "inProgress";
+                }
               }
             }, 1000);
           }
@@ -211,6 +214,24 @@ ws.on("connection", (websocketConnection) => {
         }
       }
     }
+
+    // Check if this is a remove request
+    if ("remove" in data) {
+      // Search till we find user
+      try {
+        killPlayer(data.remove[0], data.remove[1]);
+        return;
+      } catch (error) {
+        console.log("[CONNECTION] MALFORMED REQUEST!!!");
+        console.log(data, error);
+        console.log("PL==========");
+        console.log(playerList);
+        console.log("PD==========");
+        console.log(playerData);
+        websocketConnection.close();
+      }
+    }
+
     // WE ASSUME THIS IS AN ANSWER MESSAGE!
     else {
       /*
@@ -252,3 +273,41 @@ ws.broadcast = (data) => {
 // setInterval(() => {
 //   ws.broadcast(JSON.stringify(chatlog));
 // }, 20000);
+
+/**
+ * @brief Kills the player and cleanly removes him from the database
+ * @param {String} client_ The clientID
+ * @param {String} room The room for him to be removed from
+ */
+function killPlayer(client_, room) {
+  playerList[parseInt(room)].forEach((player, index) => {
+    // console.log(index);
+    // console.log(player[0]);
+
+    if (player[0].includes(client_)) {
+      console.log(`[FLOW] ${client_} has left the game (ROOM ID: ${room})`);
+      // Remove the user from the player list
+      playerList[parseInt(room)].splice(index, 1);
+      // Remove the user from the player data
+      delete playerData[client_];
+
+      // console.log(playerList);
+      // console.log(playerData);
+      // Check if the room is empty; if so we mark it as open
+      if (playerList[parseInt(room)].length == 0) {
+        roomData[parseInt(room)][0] = "init";
+      }
+      // Check if the room is empty; if so mark the game as ended after 15 seconds
+      // If nobody joins
+      setTimeout(() => {
+        if (playerList[parseInt(room)].length == 0) {
+          roomData[parseInt(room)][0] = "end";
+          // console.log(roomData);
+          console.log(`Room ${room} was marked as dead`);
+        }
+      }, 15000);
+
+      return;
+    }
+  });
+}
