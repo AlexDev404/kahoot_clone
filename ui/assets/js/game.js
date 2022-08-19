@@ -33,6 +33,8 @@ function listen() {
       window.location.href = "index.html";
     }
 
+    // Set Room Topic
+    room_topic.innerText = data[[4]];
     if (landing) {
       q_index.innerHTML = `Question ${parseInt(data[2]) + 1} out of ${
         parseInt(data[3]) + 1

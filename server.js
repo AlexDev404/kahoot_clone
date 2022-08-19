@@ -106,7 +106,7 @@ ws.on("connection", (websocketConnection) => {
                   ")"
               );
               userExists = true;
-              // Send current question along with possible choices through WebSocket to the client
+              // Send current question along with possible choices and room topic through WebSocket to the client
               websocketConnection.send(
                 JSON.stringify([
                   roomData[parseInt(data.identity[2])][4]["Q"][
@@ -117,7 +117,7 @@ ws.on("connection", (websocketConnection) => {
                   ],
                   roomData[parseInt(data.identity[2])][2],
                   roomData[parseInt(data.identity[2])][4]["Q"].length - 1,
-                ])
+                  roomData[parseInt(data.identity[2])][3]])
               );
               return;
             }
