@@ -226,7 +226,6 @@ ws.on("connection", (websocketConnection) => {
         return;
       }
     }
-
     // Check if this is a remove request
     else if ("remove" in data) {
       // Search till we find user
@@ -419,7 +418,7 @@ function killPlayer(client_, room) {
       if (playerList[parseInt(room)].length == 0) {
         roomData[parseInt(room)][0] = "init";
         console.log(
-          `[ROOMS] Temporarily unlocked ${parseInt(room)} to new players for 15 seconds.`
+          `[ROOMS] Temporarily unlocked ${parseInt(room)} to new players for 60 seconds.`
         );
       }
       // Check if the room is empty; if so mark the game as ended after 15 seconds
@@ -430,7 +429,7 @@ function killPlayer(client_, room) {
           // console.log(roomData);
           console.log(`[HOUSEKEEPING] Room ${room} was marked as dead`);
         }
-      }, 15000);
+      }, 60000);
 
       return;
     }
