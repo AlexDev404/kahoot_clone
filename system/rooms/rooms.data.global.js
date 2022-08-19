@@ -5,22 +5,22 @@ exports.default = {
     "init",
     1,
     0,
-    "Room With Users",
+    "General Science with Star Wars",
     {
       // Questions and their timeout
       "Q": [
-        ["This is an example of a room with users [UNLOCKED]", 10],
+        ["Echo Base is hidden on Hoth, a frozen world. What type of precipitation is likely to fall on Hoth?", 10],
         ["The timeout is set to one", 5],
         ["The room is unlocked", 30]
       ],
       // Possible answers to questions above
       "_metadata": [
-        ["True", "False"],
+        ["Dew", "Rain", "Fog", "Snow"],
         ["True", "False"],
         ["True", "False"]
       ],
       // Answers as indexed in _metadata
-      "A": [0, 0, 1]
+      "A": [3, 0, 1]
     }
   ]
 }
