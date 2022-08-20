@@ -8,7 +8,7 @@ const myAnswer = localStorage.getItem("myAnswer");
 let ws;
 let paused = false;
 let wsOpen = false;
-let time = 3;
+let time = 10;
 
 setTimeout(() => {
   getPublicLeaderboard();
