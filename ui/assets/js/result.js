@@ -38,9 +38,17 @@ function leaderBoard() {
       console.log(data);
       leaderboard.innerHTML = "";
       // Populate the leaderboard
+      let fullboard = Object.keys(data);
       Object.keys(data).forEach((player, index) => {
         // And append the points he currently has
-        leaderboard.insertAdjacentHTML("beforeend", hs_template.innerHTML);
+        if (
+          parseInt(data[player].points) >
+          parseInt(data[fullboard[index + 1]].points)
+        ) {
+          leaderboard.insertAdjacentHTML("afterbegin", hs_template.innerHTML);
+        } else {
+          leaderboard.insertAdjacentHTML("beforeend", hs_template.innerHTML);
+        }
         sID("highscorer", index);
         sID("highscorer__index", `${index}__position`).innerText =
           "#" + (index + 1);
