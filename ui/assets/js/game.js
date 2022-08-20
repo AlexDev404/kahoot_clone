@@ -43,7 +43,7 @@ function listen() {
       }`;
       user.innerHTML = `Signed in as <b>${username}</b>`;
       // Set question title
-      question_title.innerText = data[0][0];
+      question_title.innerHTML = data[0][0];
       // Set the timeout rules
       questionTimeout = data[0][1];
       questionTimeout__limit = questionTimeout;
