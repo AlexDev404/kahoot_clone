@@ -84,6 +84,25 @@ ws.on("connection", (websocketConnection) => {
       return;
     }
 
+    // Check if this is a leaderboard request
+    if (data[0] == "GET_LEADERBOARD") {
+      let preparedData = {};
+      // Prepare some data and filter through the players until we
+      // Find the players in the room we want
+      Object.keys(playerData).forEach((player, index) => {
+        // If the player's room is in the room we want
+        if (playerData[index].room == data[1]) {
+          // We initialize an object inside the preparedData object we just created
+          preparedData[player] = {};
+          // And append the points he currently has
+          preparedData[player].points = playerData[player].points;
+          // Along with the room
+          preparedData[player].room = playerData[player].room;
+        }
+      });
+      // And send it to the client through websocket
+      websocketConnection.send(JSON.stringify(preparedData));
+    }
     // Check if this is an initialization message
     if ("identity" in data) {
       let userExists = false;
@@ -298,11 +317,13 @@ ws.on("connection", (websocketConnection) => {
             )
           ) {
             // We then add a score of 100 to their name
+            playerData[data[0]].room = data[1];
             playerData[data[0]].points =
               parseInt(playerData[data[0]].points) + 100 || 0;
             console.log(playerData);
           } else {
             // Otherwise we subtract 90
+            playerData[data[0]].room = data[1];
             playerData[data[0]].points =
               parseInt(playerData[data[0]].points) - 90 || 0;
             console.log(playerData);
