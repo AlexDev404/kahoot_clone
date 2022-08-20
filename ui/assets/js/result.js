@@ -43,7 +43,7 @@ function leaderBoard() {
         // And append the points he currently has
         if (
           parseInt(data[player].points) >
-          parseInt(data[fullboard[index + 1]].points)
+          parseInt(data[fullboard[index]].points)
         ) {
           leaderboard.insertAdjacentHTML("afterbegin", hs_template.innerHTML);
         } else {
@@ -78,12 +78,12 @@ if (myAnswer == result) {
   remark.innerText = "We believe in you!";
 }
 
-// setInterval(() => {
-//   if (time != -1 && !paused) {
-//     redirect_status.innerText = `You'll be redirected in ${time} seconds`;
-//     time--;
-//   }
-//   if (time == -1) {
-//     history.back();
-//   }
-// }, 1000);
+setInterval(() => {
+  if (time != -1 && !paused) {
+    redirect_status.innerText = `You'll be redirected in ${time} seconds`;
+    time--;
+  }
+  if (time == -1) {
+    history.back();
+  }
+}, 1000);
