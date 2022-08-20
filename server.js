@@ -91,11 +91,12 @@ ws.on("connection", (websocketConnection) => {
       // Find the players in the room we want
       Object.keys(playerData).forEach((player, index) => {
         // If the player's room is in the room we want
-        if (playerData[index].room == data[1]) {
+        if (playerData[player].room == data[1]) {
           // We initialize an object inside the preparedData object we just created
           preparedData[player] = {};
           // And append the points he currently has
           preparedData[player].points = playerData[player].points;
+          preparedData[player].username = playerData[player].username;
           // Along with the room
           preparedData[player].room = playerData[player].room;
         }
@@ -201,6 +202,7 @@ ws.on("connection", (websocketConnection) => {
             data.identity[1], // Username
             data.identity[2] // Room
           );
+          
           // If the room is empty we start counting down
           // as soon as one person joins
           if (playerList[parseInt(player.room)].length == 0) {
@@ -234,6 +236,8 @@ ws.on("connection", (websocketConnection) => {
           // console.log(playerList);
           // Create some new data
           playerData[player.identity[0]] = { points: 0 };
+          // Add the user to the playerData
+          playerData[player.identity[0]].username = player.identity[1];
           // console.log("PD==========");
           // console.log(playerData);
           // Add 5s to the countdown

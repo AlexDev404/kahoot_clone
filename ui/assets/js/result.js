@@ -21,7 +21,7 @@ function getPublicLeaderboard() {
     ws.onopen = function () {
       // Web Socket is connected, send data using send()
       wsOpen = true;
-      leaderboard();
+      leaderBoard();
       console.log("[READY] Websocket connected successfully.");
     };
   }
@@ -30,12 +30,25 @@ function getPublicLeaderboard() {
 /**
  * @brief Get and display the public leaderboard
  */
-function leaderboard() {
+function leaderBoard() {
   if (wsOpen) {
     ws.send(JSON.stringify(["GET_LEADERBOARD", room]));
     ws.addEventListener("message", (event) => {
       let data = JSON.parse(event.data);
       console.log(data);
+      leaderboard.innerHTML = "";
+      // Populate the leaderboard
+      Object.keys(data).forEach((player, index) => {
+        // And append the points he currently has
+        leaderboard.insertAdjacentHTML("beforeend", hs_template.innerHTML);
+        sID("highscorer", index);
+        sID("highscorer__index", `${index}__position`).innerText =
+          "#" + (index + 1);
+        sID("highscorer__name", `${index}__name`).innerText =
+          data[player].username;
+        sID("highscorer__score", `${index}__score`).innerText =
+          data[player].points;
+      });
     });
     ws.addEventListener("close", () => {
       console.warn("WebSocket Server has disconnected abruptly.");
