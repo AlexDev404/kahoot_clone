@@ -10,6 +10,10 @@ let paused = false;
 let wsOpen = false;
 let time = 3;
 
+setTimeout(() => {
+  getPublicLeaderboard();
+}, 450);
+
 /**
  * @brief Setup the websocket and connect to the leaderboard service
  */
