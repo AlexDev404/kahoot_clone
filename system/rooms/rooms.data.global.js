@@ -3,7 +3,7 @@ exports.default = {
 
   111111: [
     "init",
-    1,
+    45,
     0,
     "General Science with Star Wars",
     {
