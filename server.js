@@ -289,10 +289,24 @@ ws.on("connection", (websocketConnection) => {
           }
           ////////////////////////////
           // // If the answer is correct
-          // if (
-          //   parseInt(data[2]) ==
-          //   parseInt(roomData[parseInt(data[1])][4]["A"][0])
-          // ) {
+          if (
+            parseInt(data[2]) ==
+            parseInt(
+              roomData[parseInt(data[1])][4]["A"][
+                roomData[parseInt(data[1])][2]
+              ]
+            )
+          ) {
+            // We then add a score of 100 to their name
+            playerData[data[0]].points =
+              parseInt(playerData[data[0]].points) + 100 || 0;
+            console.log(playerData);
+          } else {
+            // Otherwise we subtract 90
+            playerData[data[0]].points =
+              parseInt(playerData[data[0]].points) - 90 || 0;
+            console.log(playerData);
+          }
           ///////////////////////////
           //  We consolelog the current question along with the length and who all answered along
           // with the total users in the room
