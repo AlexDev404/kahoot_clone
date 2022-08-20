@@ -45,13 +45,34 @@ function leaderBoard() {
       let fullboard = Object.keys(data);
       Object.keys(data).forEach((player, index) => {
         // And append the points he currently has
-        if (
-          parseInt(data[player].points) >
-          parseInt(data[fullboard[index]].points)
-        ) {
-          leaderboard.insertAdjacentHTML("afterbegin", hs_template.innerHTML);
-        } else {
-          leaderboard.insertAdjacentHTML("beforeend", hs_template.innerHTML);
+        try {
+          if (
+            parseInt(data[player].points) >
+            parseInt(data[fullboard[index + 1]].points)
+          ) {
+            leaderboard.insertAdjacentHTML("afterbegin", hs_template.innerHTML);
+          } else {
+            leaderboard.insertAdjacentHTML("beforeend", hs_template.innerHTML);
+          }
+        } catch (error) {
+          try {
+            if (
+              parseInt(data[player].points) >
+              parseInt(data[fullboard[index - 1]].points)
+            ) {
+              leaderboard.insertAdjacentHTML(
+                "afterbegin",
+                hs_template.innerHTML
+              );
+            } else {
+              leaderboard.insertAdjacentHTML(
+                "beforeend",
+                hs_template.innerHTML
+              );
+            }
+          } catch (error) {
+            leaderboard.insertAdjacentHTML("beforeend", hs_template.innerHTML);
+          }
         }
         sID("highscorer", index);
         sID("highscorer__index", `${index}__position`).innerText =

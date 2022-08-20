@@ -202,7 +202,7 @@ ws.on("connection", (websocketConnection) => {
             data.identity[1], // Username
             data.identity[2] // Room
           );
-          
+
           // If the room is empty we start counting down
           // as soon as one person joins
           if (playerList[parseInt(player.room)].length == 0) {
@@ -328,8 +328,15 @@ ws.on("connection", (websocketConnection) => {
           } else {
             // Otherwise we subtract 90
             playerData[data[0]].room = data[1];
-            playerData[data[0]].points =
-              parseInt(playerData[data[0]].points) - 90 || 0;
+            // If the score is zero we don't subtract from it anymore
+            if (playerData[data[0]].points != 0 || playerData[data[0]].points == 0 ) {
+              playerData[data[0]].points =
+                parseInt(playerData[data[0]].points) - 90 || 0;
+            }
+            // Prevent negative integers
+            if (playerData[data[0]].points < 0) {
+              playerData[data[0]].points = 0;
+            }
             console.log(playerData);
           }
           ///////////////////////////
