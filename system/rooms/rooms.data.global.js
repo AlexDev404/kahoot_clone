@@ -26,7 +26,7 @@ exports.default = {
           30,
         ],
         [
-          'The <i>Star Wars</i> galaxy contains many planets. What defines a "planet" in our galaxy?',
+          'The Star Wars galaxy contains many planets. What defines a "planet" in our galaxy?',
           15,
         ],
         [
@@ -50,7 +50,7 @@ exports.default = {
           30,
         ],
         [
-          "Planets in the <i>Star Wars</i> galaxy are spherical. What force shapes cosmic objects into spheres?",
+          "Planets in the Star Wars galaxy are spherical. What force shapes cosmic objects into spheres?",
           25,
         ],
       ],
