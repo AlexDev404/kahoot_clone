@@ -1,4 +1,6 @@
 const cors = require("cors");
+const fs = require("fs");
+const JSONC = require("jsonc").jsonc;
 const express = require("express");
 const app = express();
 const WebSocketServer = require("ws").Server;
@@ -26,7 +28,13 @@ class kPlayer {
 // Room List
 let roomList = require("./system/rooms/rooms.list.global.json");
 // Room Data
-let roomData = require("./system/rooms/rooms.data.global.js").default;
+let roomData = JSONC.parse(
+  fs.readFileSync(
+    path.join(__dirname, "/system/rooms/rooms.data.global.jsonc"),
+    "utf-8"
+  )
+);
+
 // Limit the amount of people that can join these rooms
 const roomLimit = 10;
 
@@ -329,7 +337,10 @@ ws.on("connection", (websocketConnection) => {
             // Otherwise we subtract 90
             playerData[data[0]].room = data[1];
             // If the score is zero we don't subtract from it anymore
-            if (playerData[data[0]].points != 0 || playerData[data[0]].points == 0 ) {
+            if (
+              playerData[data[0]].points != 0 ||
+              playerData[data[0]].points == 0
+            ) {
               playerData[data[0]].points =
                 parseInt(playerData[data[0]].points) - 90 || 0;
             }
