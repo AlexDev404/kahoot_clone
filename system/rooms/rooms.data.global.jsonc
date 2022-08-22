@@ -76,5 +76,25 @@
       // Answers as indexed in _metadata
       "A": [3, 0, 2, 1, 1, 2, 0, 2, 1, 0, 2]
     }
+  ],
+
+  "123456": [
+    "init",
+    5,
+    0,
+    "TOPIC",
+    {
+      "Q": [
+        ["What do dogs eat", 30],
+        ["What do dogs eat", 30],
+        ["What do dogs eat", 30]
+      ],
+      "_metadata": [
+        ["Food", "Drinks"],
+        ["Food", "Drinks"],
+        ["Food", "Drinks"]
+      ],
+      "A": [0, 0, 0]
+    }
   ]
 }

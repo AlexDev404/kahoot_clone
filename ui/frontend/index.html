@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/tailwind.css" />
+    <script src="./assets/js/util.js"></script>
+    <script type="module" src="./assets/js/jsonc.js"></script>
+    <script src="./index.js" defer></script>
+    <title>Document</title>
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="py-2 px-2 text-gray-600">
+    <header
+      class="flex flex-wrap items-center justify-around py-4 border-b border-gray-200"
+    >
+      <div class="logo font-semibold text-4xl">Lokah</div>
+      <div class="link flex flex-1 justify-around">
+        <button id="roomImport"
+          class="px-10 py-2 bg-blue-500 text-white rounded-md font-semibold"
+        >
+          Import Room ⬆️
+        </button>
+        <button
+          class="px-10 py-2 bg-blue-500 text-white rounded-md font-semibold"
+        >
+          New Room +
+        </button>
+      </div>
+    </header>
+    <main class="py-10 text-gray-800">
+      <div class="flex flex-wrap">
+        <div
+          class="title text-4xl font-semibold border-b border-gray-300 w-fit my-10"
+        >
+          Control Panel
+        </div>
+        <div
+          class="title basis-full text-4xl font-semibold border-b border-gray-300 w-fit my-10"
+        >
+          Rooms
+        </div>
+        <div
+          id="room"
+          class="room-template justify-center rounded-md px-20 py-10 mx-10 border border-gray-500 hover:opacity-90 cursor-pointer"
+        >
+          <span class="id">123456</span>
+          <div class="topic">Room Topic</div>
+        </div>
+        <div
+          class="room-addition flex flex-wrap items-center justify-center rounded-md px-24 py-10 mx-10 bg-transparent border-dashed border border-gray-200 text-gray-200 text-4xl font-light hover:bg-gray-100 cursor-pointer"
+        >
+          <div class="topic">+</div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
