@@ -11,6 +11,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/css/tailwind.css" />
+    <script src="./assets/js/SID-V2.js"></script>
     <script src="./assets/js/util.js"></script>
     <script src="./index.js" defer></script>
     <title>Document</title>
@@ -25,16 +26,21 @@
     <header
       class="flex flex-wrap items-center justify-around py-4 border-b border-gray-200"
     >
-      <div class="logo font-semibold text-4xl">Lokah</div>
+      <div class="logo flex flex-wrap font-semibold text-4xl">
+        Lokah
+        <subtitle class="basis-full font-light text-sm"
+          >Control Panel</subtitle
+        >
+      </div>
       <div class="link flex flex-1 justify-around">
         <button
           id="roomImport"
-          class="px-10 py-2 bg-blue-500 text-white rounded-md font-semibold"
+          class="px-10 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-semibold"
         >
           Import Room ⬆️
         </button>
         <button
-          class="px-10 py-2 bg-blue-500 text-white rounded-md font-semibold"
+          class="px-10 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-semibold"
         >
           New Room +
         </button>
@@ -42,28 +48,42 @@
     </header>
     <main class="py-10 text-gray-800">
       <div class="flex flex-wrap">
-        <div
+        <!-- <div
           class="title text-4xl font-semibold border-b border-gray-300 w-fit my-10"
         >
           Control Panel
-        </div>
+        </div> -->
         <div
           class="title basis-full text-4xl font-semibold border-b border-gray-300 w-fit my-10"
         >
           Rooms
         </div>
-        <div
-          class="room room-template justify-center rounded-md text-center px-2 py-14 mx-10 border border-gray-500 hover:opacity-90 cursor-pointer"
-        >
-          <span class="id">Import</span>
-          <div class="topic">Some Room Data to get started.</div>
-        </div>
-        <div
-          class="room-addition flex flex-wrap items-center justify-center rounded-md px-32 py-14 mx-10 bg-transparent border-dashed border border-gray-200 text-gray-200 text-4xl font-light hover:bg-gray-100 cursor-pointer"
-        >
-          <div class="topic">+</div>
+        <div class="wrapper flex flex-wrap">
+          <div id="roomList" class="flex flex-wrap">
+            <div
+              class="room room-template justify-center rounded-md text-center px-2 py-14 mx-10 border border-gray-500 hover:opacity-90 cursor-pointer"
+            >
+              <span class="id">Import</span>
+              <div class="topic">Some Room Data to get started.</div>
+            </div>
+          </div>
+          <div
+            class="room-addition flex flex-wrap items-center justify-center rounded-md px-32 py-14 mx-10 bg-transparent border-dashed border border-gray-200 text-gray-200 text-4xl font-light hover:bg-gray-100 cursor-pointer"
+          >
+            <div class="topic">+</div>
+          </div>
         </div>
       </div>
     </main>
   </body>
+  <script type="text/html" id="roomTemplate">
+    <div
+      id="room"
+      onclick="editRoom(this.id)"
+      class="room room-template justify-center rounded-md text-center px-14 py-14 mx-10 border border-gray-500 hover:opacity-90 cursor-pointer"
+    >
+      <span id="roomId">Import</span>
+      <div id="roomTopic" class="topic">Some Room Data to get started.</div>
+    </div>
+  </script>
 </html>

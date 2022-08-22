@@ -87,6 +87,7 @@ document.getElementById("roomImport").addEventListener("click", function () {
       // console.log(text);
       try {
         roomData = JSON.parse(text);
+        populateRooms();
       } catch (error) {
         console.log("Invalid Format.");
       }
@@ -95,3 +96,24 @@ document.getElementById("roomImport").addEventListener("click", function () {
   };
   input.click();
 });
+
+/**
+ * @brief Populate the list of rooms
+ */
+function populateRooms() {
+  roomList.innerHTML = "";
+  Object.keys(roomData).forEach((room, index) => {
+    // If the player's room is in the room we want
+
+    roomList.insertAdjacentHTML("beforeend", roomTemplate.innerHTML);
+    sID("room", Object.entries(roomData)[index][0]);
+    sID("roomId", `r__${index}`).innerHTML =
+      "#" + Object.entries(roomData)[index][0];
+    sID("roomTopic", `t__${index}`).innerHTML = roomData[room][3];
+  });
+}
+
+function editRoom(rID) {
+  localStorage.setItem("room", rID);
+  window.location.href = "edit.html";
+}
