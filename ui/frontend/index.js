@@ -71,8 +71,6 @@ function dropQuestion(index, roomID) {
 // addQuestion(roomGen, ["What do dogs eat", 30], 0, ["Food", "Drinks"]);
 // dropQuestion(roomData.length - 1, roomGen);
 
-styleDump.innerHTML = `.room {background: ${random_rgba()}}`;
-
 document.getElementById("roomImport").addEventListener("click", function () {
   let file;
   let input = document.createElement("input");
@@ -103,10 +101,9 @@ document.getElementById("roomImport").addEventListener("click", function () {
 function populateRooms() {
   roomList.innerHTML = "";
   Object.keys(roomData).forEach((room, index) => {
-    // If the player's room is in the room we want
 
     roomList.insertAdjacentHTML("beforeend", roomTemplate.innerHTML);
-    sID("room", Object.entries(roomData)[index][0]);
+    sID("room", Object.entries(roomData)[index][0]).style.background = random_rgba();
     sID("roomId", `r__${index}`).innerHTML =
       "#" + Object.entries(roomData)[index][0];
     sID("roomTopic", `t__${index}`).innerHTML = roomData[room][3];
