@@ -114,6 +114,7 @@ function populateRooms() {
 }
 
 function editRoom(rID) {
+  localStorage.setItem("rData", JSON.stringify(roomData));
   localStorage.setItem("room", rID);
   window.location.href = "edit.html";
 }

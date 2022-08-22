@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/tailwind.css" />
+    <script src="./assets/js/SID-V2.js"></script>
+    <script src="./assets/js/util.js"></script>
+    <script src="./assets/js/edit.js" defer></script>
+    <title>Document</title>
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+      }
+    </style>
+    <style id="styleDump"></style>
+  </head>
+  <body class="py-2 text-gray-600">
+    <header
+      class="flex flex-wrap justify-around py-4 px-2 border-b border-gray-200 pl-6"
+    >
+      <div class="logo border-r border-gray-200 items-center mr-2">
+        <div class="logo flex flex-wrap font-semibold text-4xl">
+          Lokah
+          <subtitle class="basis-full font-light text-sm"
+            >Control Panel</subtitle
+          >
+        </div>
+      </div>
+      <div class="link flex flex-wrap flex-1 font-light">
+        <input
+          type="text"
+          id="roomImport"
+          placeholder="Room Topic"
+          class="flex-1 h-100 border border-gray-200 hover:bg-gray-300 text-white text-center"
+        />
+
+        <input
+          type="text"
+          id="roomImport"
+          placeholder="#123456"
+          class="h-100 border border-gray-200 hover:bg-gray-300 text-white text-center"
+        />
+      </div>
+    </header>
+    <main class="flex flex-wrap justify-around py-4 pl-6 w-full">
+      <div
+        class="navigation block justify-center border-r border-gray-200 items-center text-center"
+      >
+        <div
+          onclick="window.location.href = 'index.html'"
+          class="link flex flex-wrap border px-16 mb-10 font-base text-2xl"
+        >
+          Home
+        </div>
+
+        <div id="editor">
+          <div class="questionBundle mb-5">
+            <div
+              id="987654"
+              onclick="document.getElementById(`accordion__${this.id}`).classList.toggle('hidden')"
+              class="link flex flex-wrap border px-16 font-base text-2xl"
+            >
+              Room Topic v
+            </div>
+            <div class="link flex flex-wrap border px-2 font-semibold text-2xl">
+              Question Designer
+            </div>
+            <div id="accordion">
+              <div
+                id="0"
+                onclick="loadquestion(this.id)"
+                class="link flex flex-wrap border pl-24 font-base text-2xl"
+              >
+                🚩Question One
+              </div>
+            </div>
+          </div>
+          <div class="questionBundle mb-5">
+            <div
+              id="987654"
+              onclick="document.getElementById(`accordion__${this.id}`).classList.toggle('hidden')"
+              class="link flex flex-wrap border px-16 font-base text-2xl"
+            >
+              Room Topic v
+            </div>
+            <div class="link flex flex-wrap border px-2 font-semibold text-2xl">
+              Question Designer
+            </div>
+            <div id="accordion">
+              <div
+                id="0"
+                onclick="loadquestion(this.id)"
+                class="link flex flex-wrap border pl-24 font-base text-2xl"
+              >
+                🚩Question One
+              </div>
+            </div>
+          </div>
+          <div class="questionBundle mb-5">
+            <div
+              id="987654"
+              onclick="document.getElementById(`accordion__${this.id}`).classList.toggle('hidden')"
+              class="link flex flex-wrap border px-16 font-base text-2xl"
+            >
+              Room Topic v
+            </div>
+            <div class="link flex flex-wrap border px-2 font-semibold text-2xl">
+              Question Designer
+            </div>
+            <div id="accordion">
+              <div
+                id="0"
+                onclick="loadquestion(this.id)"
+                class="link flex flex-wrap border pl-24 font-base text-2xl"
+              >
+                🚩Question One
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fixed bottom-0 px-10 py-8 w-full border">
+          Room Properties
+        </div>
+      </div>
+      <div
+        class="content flex flex-wrap justify-center items-center flex-1 font-light"
+        style="flex: 7.5"
+      >
+        <div class="head flex">
+          <input
+            type="text"
+            id="roomImport"
+            placeholder="Room Topic"
+            class="flex-1 h-100 border border-gray-200 hover:bg-blue-600 text-white text-center"
+          />
+
+          <input
+            type="text"
+            id="roomImport"
+            placeholder="#123456"
+            class="h-100 border border-gray-200 hover:bg-blue-600 text-white text-center"
+          />
+        </div>
+      </div>
+    </main>
+  </body>
+  <script type="text/html" id="roomTemplate">
+    <div
+      id="room"
+      onclick="editRoom(this.id)"
+      class="room room-template justify-center rounded-md text-center px-14 py-14 mx-10 border border-gray-500 hover:opacity-90 cursor-pointer"
+    >
+      <span id="roomId">Import</span>
+      <div id="roomTopic" class="topic">Some Room Data to get started.</div>
+    </div>
+  </script>
+  <script type="text/html" id="questionBundle">
+    <div class="questionBundle mb-5">
+      <div
+        id="ROOM_ID"
+        onclick="document.getElementById(`accordion__${this.id}`).classList.toggle('hidden')"
+        class="link flex flex-wrap border px-16 font-base text-2xl"
+      >
+        Room Topic v
+      </div>
+      <div id="ACCORDION" class="hidden">
+        <div class="link flex flex-wrap border px-2 font-semibold text-2xl">
+          Question Designer
+        </div>
+
+        <div id="qID"></div>
+      </div>
+    </div>
+  </script>
+  <script type="text/html" id="qid_template">
+    <div
+      id="QUESTION_INDEX"
+      onclick="loadquestion(this.id)"
+      class="link flex flex-wrap border pl-24 font-base text-2xl"
+    >
+      🚩Question One
+    </div>
+  </script>
+</html>
