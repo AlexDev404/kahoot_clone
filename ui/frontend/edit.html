@@ -37,22 +37,22 @@
       <div class="link flex flex-wrap flex-1 font-light">
         <input
           type="text"
-          id="roomImport"
+          id="roomTopic"
           placeholder="Room Topic"
-          class="flex-1 h-100 border border-gray-200 hover:bg-gray-300 text-white text-center"
+          class="flex-1 h-100 border border-gray-200 hover:bg-gray-300 text-black font-semibold text-center"
         />
 
         <input
           type="text"
-          id="roomImport"
+          id="roomCode"
           placeholder="#123456"
-          class="h-100 border border-gray-200 hover:bg-gray-300 text-white text-center"
+          class="h-100 border border-gray-200 hover:bg-gray-300 text-black font-semibold text-center"
         />
       </div>
     </header>
     <main class="flex flex-wrap justify-around py-4 pl-6 w-full">
       <div
-        class="navigation block justify-center border-r border-gray-200 items-center text-center"
+        class="navigation block justify-center border-r border-gray-200 items-center text-center max-w-sm"
       >
         <div
           onclick="window.location.href = 'index.html'"
@@ -66,87 +66,45 @@
             <div
               id="987654"
               onclick="document.getElementById(`accordion__${this.id}`).classList.toggle('hidden')"
-              class="link flex flex-wrap border px-16 font-base text-2xl"
+              class="link flex flex-wrap border px-16 font-semibold text-2xl"
             >
-              Room Topic v
-            </div>
-            <div class="link flex flex-wrap border px-2 font-semibold text-2xl">
-              Question Designer
-            </div>
-            <div id="accordion">
-              <div
-                id="0"
-                onclick="loadquestion(this.id)"
-                class="link flex flex-wrap border pl-24 font-base text-2xl"
-              >
-                🚩Question One
-              </div>
-            </div>
-          </div>
-          <div class="questionBundle mb-5">
-            <div
-              id="987654"
-              onclick="document.getElementById(`accordion__${this.id}`).classList.toggle('hidden')"
-              class="link flex flex-wrap border px-16 font-base text-2xl"
-            >
-              Room Topic v
-            </div>
-            <div class="link flex flex-wrap border px-2 font-semibold text-2xl">
-              Question Designer
-            </div>
-            <div id="accordion">
-              <div
-                id="0"
-                onclick="loadquestion(this.id)"
-                class="link flex flex-wrap border pl-24 font-base text-2xl"
-              >
-                🚩Question One
-              </div>
-            </div>
-          </div>
-          <div class="questionBundle mb-5">
-            <div
-              id="987654"
-              onclick="document.getElementById(`accordion__${this.id}`).classList.toggle('hidden')"
-              class="link flex flex-wrap border px-16 font-base text-2xl"
-            >
-              Room Topic v
-            </div>
-            <div class="link flex flex-wrap border px-2 font-semibold text-2xl">
-              Question Designer
-            </div>
-            <div id="accordion">
-              <div
-                id="0"
-                onclick="loadquestion(this.id)"
-                class="link flex flex-wrap border pl-24 font-base text-2xl"
-              >
-                🚩Question One
-              </div>
+              Parsing...
             </div>
           </div>
         </div>
-        <div class="fixed bottom-0 px-10 py-8 w-full border">
+        <div class="fixed bottom-0 px-10 py-8 w-full border z-50">
           Room Properties
         </div>
       </div>
-      <div
-        class="content flex flex-wrap justify-center items-center flex-1 font-light"
-        style="flex: 7.5"
-      >
-        <div class="head flex">
+      <div class="content flex-1 font-light" style="flex: 7.5">
+        <div class="questionProperties flex h-12 mb-20">
           <input
             type="text"
-            id="roomImport"
-            placeholder="Room Topic"
-            class="flex-1 h-100 border border-gray-200 hover:bg-blue-600 text-white text-center"
+            id="roomTitle"
+            placeholder="Question Title"
+            class="flex-1 h-100 border border-gray-200 hover:bg-blue-600 text-black text-center"
           />
 
           <input
             type="text"
+            id="roomTimeout"
+            placeholder="30"
+            class="h-100 border border-gray-200 hover:bg-blue-600 text-black text-center"
+          />
+        </div>
+        <div id="cC" class="choice_container"></div>
+        <div class="choice flex h-12 mb-20 opacity-40">
+          <input
+            type="text"
             id="roomImport"
-            placeholder="#123456"
+            placeholder="correct?"
             class="h-100 border border-gray-200 hover:bg-blue-600 text-white text-center"
+          />
+          <input
+            type="text"
+            id="roomImport"
+            placeholder="Create a New Choice"
+            class="flex-1 h-100 border border-gray-200 hover:bg-blue-600 text-white text-center"
           />
         </div>
       </div>
@@ -167,12 +125,14 @@
       <div
         id="ROOM_ID"
         onclick="document.getElementById(`accordion__${this.id}`).classList.toggle('hidden')"
-        class="link flex flex-wrap border px-16 font-base text-2xl"
+        class="link flex flex-wrap border px-16 font-semibold font-base text-2xl select-none cursor-pointer"
       >
         Room Topic v
       </div>
       <div id="ACCORDION" class="hidden">
-        <div class="link flex flex-wrap border px-2 font-semibold text-2xl">
+        <div
+          class="link flex flex-wrap border px-2 font-semibold text-2xl select-none"
+        >
           Question Designer
         </div>
 
@@ -184,9 +144,25 @@
     <div
       id="QUESTION_INDEX"
       onclick="loadquestion(this.id)"
-      class="link flex flex-wrap border pl-24 font-base text-2xl"
+      class="link flex hover:bg-gray-100 flex-wrap border pl-24 font-base text-2xl select-none cursor-pointer"
     >
       🚩Question One
+    </div>
+  </script>
+  <script id="choiceTemplate" type="text/html">
+    <div class="choice flex h-12 mb-20">
+      <input
+        type="text"
+        id="choiceTick"
+        placeholder="correct?"
+        class="h-100 border border-gray-200 hover:bg-blue-600 text-black text-center"
+      />
+      <input
+        type="text"
+        id="choiceContent"
+        placeholder="Possible Choice Here"
+        class="flex-1 h-100 border border-gray-200 hover:bg-blue-600 text-black text-center"
+      />
     </div>
   </script>
 </html>
