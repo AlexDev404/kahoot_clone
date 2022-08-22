@@ -20,7 +20,7 @@ function importD() {
   input.type = "file";
   input.onchange = (_this) => {
     let files = Array.from(input.files);
-    console.log(files);
+    // console.log(files);
   };
   input.click();
 }

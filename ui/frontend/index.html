@@ -12,7 +12,6 @@
     />
     <link rel="stylesheet" href="./assets/css/tailwind.css" />
     <script src="./assets/js/util.js"></script>
-    <script type="module" src="./assets/js/jsonc.js"></script>
     <script src="./index.js" defer></script>
     <title>Document</title>
     <style>
@@ -20,6 +19,7 @@
         font-family: "Montserrat", sans-serif;
       }
     </style>
+    <style id="styleDump"></style>
   </head>
   <body class="py-2 px-2 text-gray-600">
     <header
@@ -27,7 +27,8 @@
     >
       <div class="logo font-semibold text-4xl">Lokah</div>
       <div class="link flex flex-1 justify-around">
-        <button id="roomImport"
+        <button
+          id="roomImport"
           class="px-10 py-2 bg-blue-500 text-white rounded-md font-semibold"
         >
           Import Room ⬆️
@@ -52,14 +53,13 @@
           Rooms
         </div>
         <div
-          id="room"
-          class="room-template justify-center rounded-md px-20 py-10 mx-10 border border-gray-500 hover:opacity-90 cursor-pointer"
+          class="room room-template justify-center rounded-md text-center px-2 py-14 mx-10 border border-gray-500 hover:opacity-90 cursor-pointer"
         >
-          <span class="id">123456</span>
-          <div class="topic">Room Topic</div>
+          <span class="id">Import</span>
+          <div class="topic">Some Room Data to get started.</div>
         </div>
         <div
-          class="room-addition flex flex-wrap items-center justify-center rounded-md px-24 py-10 mx-10 bg-transparent border-dashed border border-gray-200 text-gray-200 text-4xl font-light hover:bg-gray-100 cursor-pointer"
+          class="room-addition flex flex-wrap items-center justify-center rounded-md px-32 py-14 mx-10 bg-transparent border-dashed border border-gray-200 text-gray-200 text-4xl font-light hover:bg-gray-100 cursor-pointer"
         >
           <div class="topic">+</div>
         </div>
