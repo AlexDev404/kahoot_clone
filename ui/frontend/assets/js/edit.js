@@ -52,3 +52,16 @@ function loadquestion(id) {
     //   sID("QUESTION_INDEX", index).innerText = roomData[room][4]["Q"][question][0];
   });
 }
+
+
+function saveQuestion(apex){
+  switch (apex){
+    case "title":
+      // save quiz topic in localStorage
+      break;
+    case "all":
+      // save everything in localStorage
+    default:
+      // save question only in localStorage
+  }
+}
