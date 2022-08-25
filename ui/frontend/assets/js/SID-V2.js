@@ -1,9 +1,13 @@
 /**
  * @version SID-V2
- * @brief Switch HTML Element ID and retrieve it for usage at the same time
+ * @brief document.getElementbyId() with supercow powers. Switch HTML Element ID and retrieve it for usage at the same time
+ * @author Immanuel Garcia
  * @param {String} od Old ID (Current ID)
  * @param {String} nd New ID (Intended ID)
- * @returns HTML Element
+ * @returns {Element} [HTMLDOMElementObject]
+ * @example
+ * // Switching an element of ID "x" to ID "y" while simultaneously changing the background style to a color of red
+ * sID("x", "y").style.background = "red";
  *
  */
  function sID(od, nd) {
