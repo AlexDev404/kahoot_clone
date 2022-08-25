@@ -35,6 +35,7 @@ function putQuestions() {
 
 function loadquestion(id) {
   cC.innerHTML = "";
+  localStorage.setItem("question", id);
   roomTitle.value = roomData[room][4]["Q"][id][0];
   roomTimeout.value = roomData[room][4]["Q"][id][1];
   Object.entries(roomData[room][4]["_metadata"][id]).forEach((answer) => {
