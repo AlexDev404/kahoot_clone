@@ -7,7 +7,7 @@ const WebSocketServer = require("ws").Server;
 const path = require("path");
 const port = process.env.PORT || 8011;
 
-let answerData = { 111111: [], 999999: [] };
+let answerData = { 111111: [], 999999: [], 123456: [] };
 
 // Players
 

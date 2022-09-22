@@ -80,19 +80,19 @@
 
   "123456": [
     "init",
-    5,
+    15,
     0,
-    "TOPIC",
+    "Idiots",
     {
       "Q": [
-        ["What do dogs eat", 30],
-        ["What do dogs eat", 30],
-        ["What do dogs eat", 30]
+        ["Do Cheetos have plastic in them?", 30],
+        ["When I do arithmetic, I don't cheat, yet Y did my X?", 30],
+        ["Is there someone who doesn't listen to music?", 30]
       ],
       "_metadata": [
-        ["Food", "Drinks"],
-        ["Food", "Drinks"],
-        ["Food", "Drinks"]
+        ["Yes", "No"],
+        ["😕", "🙄"],
+        ["Why?", "No"]
       ],
       "A": [0, 0, 0]
     }
