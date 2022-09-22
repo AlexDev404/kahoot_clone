@@ -7,6 +7,7 @@ setTimeout(() => {
     document.body.classList.add("select-none");
     window.location.href = "room.html";
   }
+  server.value = new URL(window.location.href).hostname;
 }, 550);
 
 pin.addEventListener("submit", (e) => {

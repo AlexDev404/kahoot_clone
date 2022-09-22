@@ -197,64 +197,65 @@ ws.on("connection", (websocketConnection) => {
         }
 
         // If the room is full we don't let them in
-        if (playerList[parseInt(data.identity[2])].length > roomLimit) {
-          websocketConnection.send(JSON.stringify(["FULL"]));
-          // websocketConnection.close();
-          return;
-        }
-        // Otherwise we add them to the player list
-        else {
-          // Create a new player
-          const player = new kPlayer(
-            data.identity[0], // Client
-            data.identity[1], // Username
-            data.identity[2] // Room
-          );
+          if (playerList[parseInt(data.identity[2])].length > roomLimit) {
+            websocketConnection.send(JSON.stringify(["FULL"]));
+            // websocketConnection.close();
+            return;
+          }
+          // Otherwise we add them to the player list
+          else {
+            // Create a new player
+            const player = new kPlayer(
+              data.identity[0], // Client
+              data.identity[1], // Username
+              data.identity[2] // Room
+            );
 
-          // If the room is empty we start counting down
-          // as soon as one person joins
-          if (playerList[parseInt(player.room)].length == 0) {
-            setInterval(() => {
-              if (parseInt(roomData[parseInt(player.room)][1]) != 0) {
-                roomData[player.room][1] =
-                  parseInt(roomData[parseInt(player.room)][1]) - 1;
-              } else {
-                // Sets to inProgress if there are players in the room
-                if (
-                  playerList[parseInt(player.room)].length != 0 &&
-                  roomData[parseInt(data.identity[2])][0] != "inProgress"
-                ) {
-                  console.log(
-                    `[ROOMS] Locked off ${parseInt(
-                      player.room
-                    )} to new players.`
-                  );
+            // If the room is empty we start counting down
+            // as soon as one person joins
+            if (playerList[parseInt(player.room)].length == 0) {
+              setInterval(() => {
+                if (parseInt(roomData[parseInt(player.room)][1]) != 0) {
+                  roomData[player.room][1] =
+                    parseInt(roomData[parseInt(player.room)][1]) - 1;
+                } else {
+                  // Sets to inProgress if there are players in the room
+                  if (
+                    playerList[parseInt(player.room)].length != 0 &&
+                    roomData[parseInt(data.identity[2])][0] != "inProgress"
+                  ) {
+                    console.log(
+                      `[ROOMS] Locked off ${parseInt(
+                        player.room
+                      )} to new players.`
+                    );
 
-                  roomData[parseInt(data.identity[2])][0] = "inProgress";
+                    roomData[parseInt(data.identity[2])][0] = "inProgress";
+                  }
                 }
-              }
-            }, 1000);
+              }, 1000);
+            }
+
+            // If the countdown is finished we switch the room status to "inProgress"
+
+            // Assign the player his room
+            playerList[parseInt(player.room)].push(player.identity);
+            // console.log("PL==========");
+            // console.log(playerList);
+            // Create some new data
+            playerData[player.identity[0]] = { points: 0 };
+            // Add the user to the playerData
+            playerData[player.identity[0]].username = player.identity[1];
+            // console.log("PD==========");
+            // console.log(playerData);
+            // Add 5s to the countdown
+            roomData[parseInt(player.room)][1] =
+              parseInt(roomData[parseInt(player.room)][1]) + 5;
+
+            // Broadcast this to all users
+            ws.broadcast(JSON.stringify([roomData[parseInt(player.room)][1]]));
           }
 
-          // If the countdown is finished we switch the room status to "inProgress"
-
-          // Assign the player his room
-          playerList[parseInt(player.room)].push(player.identity);
-          // console.log("PL==========");
-          // console.log(playerList);
-          // Create some new data
-          playerData[player.identity[0]] = { points: 0 };
-          // Add the user to the playerData
-          playerData[player.identity[0]].username = player.identity[1];
-          // console.log("PD==========");
-          // console.log(playerData);
-          // Add 5s to the countdown
-          roomData[parseInt(player.room)][1] =
-            parseInt(roomData[parseInt(player.room)][1]) + 5;
-
-          // Broadcast this to all users
-          ws.broadcast(JSON.stringify([roomData[parseInt(player.room)][1]]));
-        }
         return;
       }
     }
