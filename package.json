@@ -20,7 +20,7 @@
   "homepage": "https://github.com/AlexDev404/kahoot_clone#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "jsonc": "^2.0.0",
     "nodemon": "^2.0.19",
     "ws": "^8.8.1"
